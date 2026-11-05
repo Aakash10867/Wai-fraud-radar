@@ -57,7 +57,10 @@ def test_find_candidates_survives_dead_gemini_and_raises_only_when_all_routes_fa
     monkeypatch.setattr(d, "search_gemini", boom)
     assert d.find_candidates("A B", 2019) == ["http://x/ar.pdf"]  # web search carries on
     assert d._gemini_down is True
-    monkeypatch.setattr(d, "search_web", boom)
+    def web_boom(c, fy):
+        raise RuntimeError("network down")
+
+    monkeypatch.setattr(d, "search_web", web_boom)
     import pytest
 
     with pytest.raises(RuntimeError):
