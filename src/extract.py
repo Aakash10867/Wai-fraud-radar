@@ -22,7 +22,8 @@ import pandas as pd
 
 from .collect import FIELDS
 
-REPORTS = Path("config/reports.csv")
+REPORTS = Path("config/reports.csv")  # optional manual overrides
+DISCOVERED = Path("data/report_urls.csv")  # written by src/discover.py
 SIGNAL_DIR = Path("data/signals")
 FIN_DIR = Path("data/reports_fin")
 LOG = Path("data/extraction_log.csv")
@@ -146,9 +147,18 @@ def download_pdf_pages(url: str) -> list[str]:
     import requests
     from pypdf import PdfReader
 
-    r = requests.get(url, timeout=120, headers={"User-Agent": "Mozilla/5.0 (academic research)"})
-    r.raise_for_status()
-    reader = PdfReader(io.BytesIO(r.content))
+    buf, size = io.BytesIO(), 0
+    with requests.get(url, timeout=120, stream=True,
+                      headers={"User-Agent": "Mozilla/5.0 (academic research)"}) as r:
+        r.raise_for_status()
+        for chunk in r.iter_content(1 << 20):
+            size += len(chunk)
+            if size > 60 << 20:
+                raise ValueError("file too large")
+            buf.write(chunk)
+    if buf.getvalue()[:5] != b"%PDF-":
+        raise ValueError("not a PDF")
+    reader = PdfReader(buf)
     return [(p.extract_text() or "") for p in reader.pages]
 
 
@@ -184,13 +194,27 @@ def rebuild_financials() -> None:
             df.to_csv(FIN_DIR / f"{name}.csv", index=False)
 
 
+def load_report_list() -> pd.DataFrame:
+    """Manual overrides (config/reports.csv) first, then auto-discovered links."""
+    frames = []
+    if REPORTS.exists():
+        frames.append(pd.read_csv(REPORTS))
+    if DISCOVERED.exists():
+        d = pd.read_csv(DISCOVERED)
+        frames.append(d[d["status"] == "ok"][["company", "fy", "url"]])
+    if not frames:
+        return pd.DataFrame(columns=["company", "fy", "url"])
+    return pd.concat(frames, ignore_index=True).drop_duplicates(["company", "fy"], keep="first")
+
+
 def main() -> None:
-    if not REPORTS.exists():
+    reports = load_report_list()
+    if reports.empty:
         return
     SIGNAL_DIR.mkdir(parents=True, exist_ok=True)
     LOG.parent.mkdir(parents=True, exist_ok=True)
     log = []
-    for _, r in pd.read_csv(REPORTS).fillna("").iterrows():
+    for _, r in reports.fillna("").iterrows():
         if not r["url"]:
             continue
         out = SIGNAL_DIR / f"{slug(r['company'])}_{int(r['fy'])}.json"
