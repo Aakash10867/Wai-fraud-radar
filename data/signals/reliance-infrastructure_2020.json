@@ -1,0 +1,87 @@
+{
+ "company": "Reliance Infrastructure",
+ "report_fy": 2020,
+ "url": "https://www.rinfra.com/documents/1142822/10625710/RINFRA-Annual_Report_2019-20.pdf",
+ "unit": "crore",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": true,
+   "quote": "We do not express an opinion on the accompanying standalone financial statements of the Company. Because of the significance of the matter described in the Basis for Disclaimer of Opinion section of our report, we have not been able to obtain sufficient appropriate audit evidence to provide a basis for an audit opinion on these standalone financial statements."
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": true,
+   "quote": "We draw attention to Note 38 to the standalone financial statements regarding the Scheme of Amalgamation (\u2018the Scheme\u2019) between Reliance Infraprojects Limited (wholly owned subsidiary of the Company) and the Company sanctioned by the Hon\u2019ble High Court of Judicature at Bombay vide its order dated March 30, 2011, wherein the Company, as determined by the Board of Directors, is permitted to adjust foreign exchange/derivative/hedging losses/gains debited/credited to the Statement of Profit and Loss by a corresponding withdrawal from or credit to General Reserve which overrides the relevant provisions of Ind AS \u2013 1 \u2018Presentation of financial statements\u2019."
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": true,
+   "quote": "wherein the Company has outstanding obligations to lenders and the Company is also a guarantor for its subsidiaries and associates whose loans have also fallen due which indicate that material uncertainty exists that may cast significant doubt on the Company\u2019s ability to continue as a going concern."
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": true,
+   "quote": "ICD refunded by RePL ` 447.96 Crore."
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": true,
+   "quote": "M/s. Pathak H.D. & Associates LLP, Chartered Accountants, who were appointed as statutory auditors of the Company to hold office for a term of 4 (four) consecutive years at the 87th Annual General Meeting of the Company held on September 27, 2016, would be completing their second term of appointment upon conclusion of the 91st Annual General Meeting of the Company and accordingly, cannot be re-appointed."
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": true,
+   "quote": "Because of the above reasons, we are unable to obtain sufficient appropriate audit evidence to provide a basis for our opinion whether the Company had adequate internal financial controls with reference to standalone financial statements and whether such internal financial controls were operating effectively as at March 31, 2020"
+  }
+ ],
+ "dropped_unverified": 1,
+ "financials": [],
+ "rejected": [
+  "current: failed balance check or unit missing",
+  "prior: failed balance check or unit missing"
+ ],
+ "raw_rejected": {
+  "current": {
+   "revenue": null,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": null,
+   "ppe": null,
+   "total_assets": null,
+   "depreciation": 65.31,
+   "sga": null,
+   "current_liabilities": null,
+   "long_term_debt": null,
+   "net_income": 1031.27,
+   "cfo": 229.7,
+   "retained_earnings": 303.05,
+   "ebit": 1913.77,
+   "equity": 10447.0,
+   "total_liabilities": null
+  },
+  "prior": {
+   "revenue": null,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": null,
+   "ppe": null,
+   "total_assets": null,
+   "depreciation": 81.83,
+   "sga": null,
+   "current_liabilities": null,
+   "long_term_debt": null,
+   "net_income": -913.39,
+   "cfo": -2626.22,
+   "retained_earnings": -675.5,
+   "ebit": -3867.04,
+   "equity": 14290.88,
+   "total_liabilities": null
+  }
+ }
+}

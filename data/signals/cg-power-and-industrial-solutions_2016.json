@@ -1,0 +1,89 @@
+{
+ "company": "CG Power and Industrial Solutions",
+ "report_fy": 2016,
+ "url": "https://files.tijorifinance.com/insight/india/63/Annual%20Report/AR-16.pdf",
+ "unit": "crore",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 1,
+ "financials": [
+  {
+   "fy": 2016,
+   "revenue": 42908300000.0,
+   "cogs": 28624400000.0,
+   "receivables": 17031900000.0,
+   "current_assets": 44341600000.0,
+   "ppe": 12960400000.0,
+   "total_assets": 66061300000.0,
+   "depreciation": 1079600000.0,
+   "sga": null,
+   "current_liabilities": 21496700000.0,
+   "long_term_debt": 41500000.0,
+   "net_income": -10919700000.0,
+   "cfo": -9207600000.0,
+   "retained_earnings": 40027000000.0,
+   "ebit": -9520500000.0,
+   "equity": 41280500000.0,
+   "total_liabilities": 24780800000.0,
+   "source": "annual_report"
+  }
+ ],
+ "rejected": [
+  "prior: failed balance check or unit missing"
+ ],
+ "raw_rejected": {
+  "prior": {
+   "revenue": 4523.6,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": null,
+   "ppe": null,
+   "total_assets": null,
+   "depreciation": null,
+   "sga": null,
+   "current_liabilities": null,
+   "long_term_debt": null,
+   "net_income": null,
+   "cfo": null,
+   "retained_earnings": 4012.5,
+   "ebit": null,
+   "equity": 4137.85,
+   "total_liabilities": null
+  }
+ }
+}

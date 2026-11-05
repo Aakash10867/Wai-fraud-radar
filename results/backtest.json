@@ -1,18 +1,18 @@
 {
  "threshold": 3,
- "flagged_firms": 1,
- "control_firms": 3,
- "firm_years": 12,
+ "flagged_firms": 2,
+ "control_firms": 4,
+ "firm_years": 18,
  "numbers_only": {
-  "auc": 0.7222222222222222,
-  "detection_rate": 1.0,
-  "false_positive_rate": 0.6666666666666666,
+  "auc": 0.625,
+  "detection_rate": 0.5,
+  "false_positive_rate": 0.5,
   "median_lead_years": 1.0
  },
  "numbers_plus_text": {
-  "auc": 0.7222222222222222,
-  "detection_rate": 1.0,
-  "false_positive_rate": 0.6666666666666666,
+  "auc": 0.5972222222222222,
+  "detection_rate": 0.5,
+  "false_positive_rate": 0.5,
   "median_lead_years": 1.0
  }
 }

@@ -1,0 +1,87 @@
+{
+ "company": "Siemens",
+ "report_fy": 2018,
+ "url": "https://files.tijorifinance.com/insight/india/353/Annual%20Report/AR-18.pdf",
+ "unit": "million",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 1,
+ "financials": [],
+ "rejected": [
+  "current: failed balance check or unit missing",
+  "prior: failed balance check or unit missing"
+ ],
+ "raw_rejected": {
+  "current": {
+   "revenue": 127251,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": null,
+   "ppe": null,
+   "total_assets": null,
+   "depreciation": 1967,
+   "sga": null,
+   "current_liabilities": null,
+   "long_term_debt": 0,
+   "net_income": 8939,
+   "cfo": 422,
+   "retained_earnings": null,
+   "ebit": 13994,
+   "equity": 83054,
+   "total_liabilities": null
+  },
+  "prior": {
+   "revenue": 113483,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": null,
+   "ppe": null,
+   "total_assets": null,
+   "depreciation": 1966,
+   "sga": null,
+   "current_liabilities": null,
+   "long_term_debt": 0,
+   "net_income": 11336,
+   "cfo": null,
+   "retained_earnings": null,
+   "ebit": 16768,
+   "equity": 77047,
+   "total_liabilities": null
+  }
+ }
+}

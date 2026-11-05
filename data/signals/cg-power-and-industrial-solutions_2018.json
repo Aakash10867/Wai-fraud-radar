@@ -1,0 +1,86 @@
+{
+ "company": "CG Power and Industrial Solutions",
+ "report_fy": 2018,
+ "url": "https://files.tijorifinance.com/insight/india/63/Annual%20Report/AR-18.pdf",
+ "unit": "crore",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 1,
+ "financials": [
+  {
+   "fy": 2018,
+   "revenue": 50794100000.0,
+   "cogs": 36787100000.0,
+   "receivables": 17198800000.0,
+   "current_assets": 49063700000.0,
+   "ppe": 12876900000.0,
+   "total_assets": 74154400000.0,
+   "depreciation": 1021000000.0,
+   "sga": null,
+   "current_liabilities": 26703000000.0,
+   "long_term_debt": 8366500000.0,
+   "net_income": -3247200000.0000005,
+   "cfo": 4460200000.0,
+   "retained_earnings": 27009400000.0,
+   "ebit": -122000000.0,
+   "equity": 38407100000.0,
+   "total_liabilities": 35747300000.0,
+   "source": "annual_report"
+  },
+  {
+   "fy": 2017,
+   "revenue": 47614300000.0,
+   "cogs": 32017100000.0,
+   "receivables": 14803699999.999998,
+   "current_assets": 54178900000.0,
+   "ppe": 12327800000.0,
+   "total_assets": 73911300000.0,
+   "depreciation": 917400000.0,
+   "sga": null,
+   "current_liabilities": 24116400000.0,
+   "long_term_debt": 5036000000.0,
+   "net_income": 1244600000.0,
+   "cfo": -7332100000.0,
+   "retained_earnings": 30295200000.0,
+   "ebit": 3208600000.0,
+   "equity": 41992900000.0,
+   "total_liabilities": 31918400000.0,
+   "source": "annual_report"
+  }
+ ]
+}
