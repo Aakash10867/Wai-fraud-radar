@@ -14,5 +14,11 @@
   "detection_rate": 0.5,
   "false_positive_rate": 0.3333333333333333,
   "median_lead_years": 1.0
+ },
+ "numbers_plus_text_v2": {
+  "auc": 0.7388888888888889,
+  "detection_rate": 0.5,
+  "false_positive_rate": 0.3333333333333333,
+  "median_lead_years": 1.0
  }
 }
