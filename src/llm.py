@@ -73,9 +73,11 @@ def candidate_models(client) -> list[str]:
             listed = [(m.name, list(getattr(m, "supported_actions", None) or []))
                       for m in client.models.list()]
             _cached = rank_models(listed)[:6]
-        except Exception:
+        except Exception as exc:
+            print("model listing failed:", str(exc)[:200])
             _cached = []
-        _cached = _cached or ["gemini-flash-latest"]
+        _cached = _cached or ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-3-flash-preview", "gemini-flash-latest"]
+        print("candidate models:", _cached)
     return _cached
 
 
