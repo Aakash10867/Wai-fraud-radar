@@ -14,27 +14,9 @@ file is never overwritten by a failed download.
 One-time setup: create a GitHub repo, push this folder, and make sure Actions is
 enabled. No secrets are needed yet.
 
-## Status
-- Built and tested (16 tests): scoring engine, Yahoo collector, annual-report extractor
-  (`src/extract.py`), score merge, weekly workflow.
-- First live run: Yahoo works from GitHub but returns only 3-5 fiscal years, which is
-  after most fraud events. Older years therefore come from annual reports: each report
-  holds two years of statements.
-- Extractor: Gemini returns fixed-type signals with verbatim quotes plus the statements.
-  A quote is kept only if it appears in the PDF text; statements are kept only if
-  assets = equity + liabilities (2% tolerance). Results are cached in `data/signals/`.
-- Links find themselves: `src/discover.py` asks Gemini + Google Search for the annual-report
-  PDF of FY(event), FY(event)-2 and FY(event)-4 for every company with an event year, then
-  accepts a link only if it downloads as a PDF naming the company, "annual report" and the
-  fiscal year. Results are cached in `data/report_urls.csv` (max 3 attempts per report).
-  `config/reports.csv` is an optional manual override and needs no upkeep.
-- Not yet run live on a real PDF. Companies without an event year are skipped by discovery.
-- Not built yet: matched control firms, the combined model and backtest, dashboard.
-- `config/universe.csv`: flagged cases are still `to_verify`; control rows are placeholders.
+## Status (5 Nov 2026)
 
-## Known limits
-- Yahoo usually exposes only the last few fiscal years of statements, so long
-  histories come later from annual reports.
-- Delisted firms often have no Yahoo ticker.
-- M-score and Z'' are not meaningful for banks and NBFCs.
-- Benford is computed per company across all its statement values (small n).
+- Pipeline runs daily on GitHub Actions with no manual steps (collect, discover, extract, score, back-test, dashboard, commit).
+- Back-test: 2 flagged firms, 6 matched controls, 24 firm-years. Numbers only AUC 0.63; text v1 0.57; text v2 (post-hoc) 0.63. Gensol detected one year ahead; CG Power not detected. Illustrative only.
+- Known gaps: Thermax FY2017-18 not extracted; Reliance Infrastructure and Ricoh India excluded from the back-test (event year unverified / no ticker).
+- Deliverables: report (docs), deck (8-10 slides), prompt log in logs/prompt_log.jsonl, dashboard in docs/index.html.
