@@ -2,7 +2,7 @@ name: refresh-data
 
 on:
   schedule:
-    - cron: "30 2 * * 1"   # every Monday, 08:00 IST
+    - cron: "30 9 * * *"   # daily 15:00 IST, after the Gemini daily quota resets (08:00 UTC); finished work is cached
   workflow_dispatch:        # also runnable from the Actions tab
 
 permissions:

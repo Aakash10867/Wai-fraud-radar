@@ -13,7 +13,7 @@ def test_newest_stable_flash_first_and_junk_excluded():
         ("models/gemini-3-pro", GEN),
         ("models/gemini-3-flash-embedding", ["embedContent"]),
     ]
-    assert rank_models(models) == ["gemini-3-flash", "gemini-3-flash-preview", "gemini-2.5-flash"]
+    assert rank_models(models) == ["gemini-3-flash", "gemini-3-flash-preview", "gemini-2.5-flash", "gemini-3-flash-lite"]
 
 
 def test_models_without_generate_content_are_skipped():
@@ -39,3 +39,10 @@ def test_transient_errors_and_retry_delay():
     assert retry_delay(Exception("Please retry in 12.5s.")) == 13.5
     assert retry_delay(Exception("'retryDelay': '600s'")) == 45.0
     assert retry_delay(Exception("no hint")) == 20.0
+
+
+def test_daily_quota_detected_but_per_minute_is_not():
+    from src.llm import is_daily_quota
+
+    assert is_daily_quota(Exception("429 RESOURCE_EXHAUSTED ... GenerateRequestsPerDayPerProjectPerModel-FreeTier limit: 20"))
+    assert not is_daily_quota(Exception("429 RESOURCE_EXHAUSTED ... PerMinute ... retry in 12s"))

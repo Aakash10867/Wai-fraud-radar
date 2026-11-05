@@ -15,7 +15,7 @@ from pathlib import Path
 
 PROMPT_LOG = Path("logs/prompt_log.jsonl")
 
-SKIP = ("lite", "image", "tts", "live", "audio", "robotics", "embedding", "native",
+SKIP = ("image", "tts", "live", "audio", "robotics", "embedding", "native",
         "computer", "imagen", "veo", "gemma", "learnlm", "aqa")
 PREVIEW = ("preview", "exp", "thinking")
 
@@ -34,13 +34,21 @@ def rank_models(models) -> list[str]:
             continue
         m = re.search(r"gemini-(\d+(?:\.\d+)?)", low)
         version = float(m.group(1)) if m else 0.0
-        scored.append((version, not any(p in low for p in PREVIEW), n))
-    return [n for _, _, n in sorted(scored, reverse=True)]
+        scored.append(("lite" not in low, version, not any(p in low for p in PREVIEW), n))
+    return [n for *_, n in sorted(scored, reverse=True)]  # full-size models first, lite as fallback
 
 
 def is_model_unavailable(exc: Exception) -> bool:
     s = str(exc)
     return "404" in s or "NOT_FOUND" in s or "no longer available" in s
+
+
+_exhausted: set[str] = set()  # models whose DAILY quota is gone in this process
+
+
+def is_daily_quota(exc: Exception) -> bool:
+    s = str(exc).lower()
+    return "429" in s and any(t in s for t in ("perday", "per day", "daily", "limit: 0"))
 
 
 def is_transient(exc: Exception) -> bool:
@@ -62,7 +70,7 @@ def candidate_models(client) -> list[str]:
         try:
             listed = [(m.name, list(getattr(m, "supported_actions", None) or []))
                       for m in client.models.list()]
-            _cached = rank_models(listed)[:4]
+            _cached = rank_models(listed)[:6]
         except Exception:
             _cached = []
         _cached = _cached or ["gemini-flash-latest"]
@@ -94,6 +102,8 @@ def generate(prompt: str, search: bool = False, json_out: bool = False, purpose:
         cfg["tools"] = [types.Tool(google_search=types.GoogleSearch())]
     last: Exception | None = None
     for model in candidate_models(client):
+        if model in _exhausted:
+            continue
         for attempt in range(2):
             try:
                 resp = client.models.generate_content(
@@ -105,6 +115,9 @@ def generate(prompt: str, search: bool = False, json_out: bool = False, purpose:
                 last = exc
                 if is_model_unavailable(exc):
                     break  # retired model: go straight to the next one
+                if is_daily_quota(exc):
+                    _exhausted.add(model)  # waiting will not help: use another model now
+                    break
                 if not is_transient(exc):
                     raise
                 if attempt == 0:
