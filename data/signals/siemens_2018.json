@@ -1,0 +1,89 @@
+{
+ "company": "Siemens",
+ "report_fy": 2018,
+ "url": "https://files.tijorifinance.com/insight/india/353/Annual%20Report/AR-18.pdf",
+ "unit": "million",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": true,
+   "quote": "Accordingly, SRBC ceases to be the Statutory Auditors of the Company on the conclusion of forthcoming 61st AGM of the Company to be held on 6th February 2019."
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 1,
+ "financials": [
+  {
+   "fy": 2018,
+   "revenue": 127251000000.0,
+   "cogs": null,
+   "receivables": 36504000000.0,
+   "current_assets": 109204000000.0,
+   "ppe": 12439000000.0,
+   "total_assets": 142492000000.0,
+   "depreciation": 1967000000.0,
+   "sga": null,
+   "current_liabilities": 56686000000.0,
+   "long_term_debt": null,
+   "net_income": 8939000000.0,
+   "cfo": 422000000.0,
+   "retained_earnings": 82342000000.0,
+   "ebit": 13994000000.0,
+   "equity": 83054000000.0,
+   "total_liabilities": 59438000000.0,
+   "source": "annual_report"
+  }
+ ],
+ "rejected": [
+  "prior: failed balance check or unit missing"
+ ],
+ "raw_rejected": {
+  "prior": {
+   "revenue": null,
+   "cogs": null,
+   "receivables": 25483,
+   "current_assets": 97815,
+   "ppe": 12504,
+   "total_assets": 131103,
+   "depreciation": 1994,
+   "sga": null,
+   "current_liabilities": 45334,
+   "long_term_debt": null,
+   "net_income": null,
+   "cfo": 6256,
+   "retained_earnings": 85057,
+   "ebit": 17222,
+   "equity": 85769,
+   "total_liabilities": 48028
+  }
+ }
+}

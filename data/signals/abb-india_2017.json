@@ -1,0 +1,91 @@
+{
+ "company": "ABB India",
+ "report_fy": 2017,
+ "url": "https://files.tijorifinance.com/insight/india/1/Annual%20Report/AR-17.pdf",
+ "unit": "crore",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": true,
+   "quote": "Messrs B S R & Co. LLP, Chartered Accountants (Firm Registration No.101248W/W-100022), were appointed as Statutory Auditors of the Company for a term of 5 years, to hold office from the conclusion of 67th Annual General Meeting held on May 9, 2017 until the conclusion of 72nd Annual General Meeting"
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": true,
+   "quote": "The Company has adopted Indian Accounting Standard (\u2018Ind AS\u2019) with effect from January 1, 2017 and accordingly financial results along with the comparatives have been prepared in accordance with the recognition and measurement principles stated therein"
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 0,
+ "financials": [
+  {
+   "fy": 2017,
+   "revenue": 93751000000.0,
+   "cogs": 53522800000.0,
+   "receivables": 27877800000.000004,
+   "current_assets": 69564400000.0,
+   "ppe": 11426000000.0,
+   "total_assets": 88880500000.0,
+   "depreciation": 1579700000.0,
+   "sga": null,
+   "current_liabilities": 52304799999.99999,
+   "long_term_debt": 41400000.0,
+   "net_income": 4199500000.0,
+   "cfo": 7998300000.0,
+   "retained_earnings": 4069400000.0,
+   "ebit": 6990700000.000001,
+   "equity": 36068900000.0,
+   "total_liabilities": 52811600000.0,
+   "source": "annual_report"
+  },
+  {
+   "fy": 2016,
+   "revenue": 91835200000.0,
+   "cogs": 51055200000.00001,
+   "receivables": 29707199999.999996,
+   "current_assets": 58649500000.0,
+   "ppe": 11687900000.0,
+   "total_assets": 77312000000.0,
+   "depreciation": 1509500000.0,
+   "sga": null,
+   "current_liabilities": 37885100000.0,
+   "long_term_debt": 6000000000.0,
+   "net_income": 3744700000.0000005,
+   "cfo": 8625700000.0,
+   "retained_earnings": 1390100000.0,
+   "ebit": 6651500000.0,
+   "equity": 32867000000.0,
+   "total_liabilities": 44445000000.0,
+   "source": "annual_report"
+  }
+ ]
+}

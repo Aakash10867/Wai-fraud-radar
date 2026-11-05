@@ -1,4 +1,13 @@
 company,fy,status,checked_utc
-Reliance Infrastructure,2020,"error: ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.",2026-11-05T12:19:32+00:00
-CG Power and Industrial Solutions,2018,"error: ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.",2026-11-05T12:24:14+00:00
-CG Power and Industrial Solutions,2016,"error: ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.",2026-11-05T12:29:17+00:00
+Reliance Infrastructure,2020,"error: ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/get-started).', 'status': 'NOT_FOUND'}}",2026-11-05T12:36:57+00:00
+CG Power and Industrial Solutions,2018,ok,2026-11-05T12:41:43+00:00
+CG Power and Industrial Solutions,2016,"error: ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/get-started).', 'status': 'NOT_FOUND'}}",2026-11-05T12:46:00+00:00
+Siemens,2018,ok,2026-11-05T12:49:09+00:00
+Siemens,2017,ok,2026-11-05T12:50:23+00:00
+Siemens,2016,error: RemoteProtocolError: Server disconnected without sending a response.,2026-11-05T12:54:10+00:00
+ABB India,2018,ok,2026-11-05T12:59:27+00:00
+ABB India,2017,ok,2026-11-05T13:03:12+00:00
+ABB India,2016,ok,2026-11-05T13:05:46+00:00
+Thermax,2018,ok,2026-11-05T13:09:30+00:00
+Thermax,2017,error: AttributeError: 'list' object has no attribute 'get',2026-11-05T13:10:49+00:00
+Thermax,2016,ok,2026-11-05T13:14:41+00:00
