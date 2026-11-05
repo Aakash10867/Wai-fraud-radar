@@ -15,13 +15,18 @@ One-time setup: create a GitHub repo, push this folder, and make sure Actions is
 enabled. No secrets are needed yet.
 
 ## Status
-- Built and tested: scoring engine (`src/scores.py`), collector, scoring run, workflow.
-- Not built yet: annual-report text extraction (LLM), matched control firms, the
-  combined model and backtest, dashboard.
-- The collector has not yet run against live Yahoo data. The first workflow run is
-  the real test; check `data/collection_log.csv`.
-- `config/universe.csv`: every flagged case is `to_verify` and tickers are unchecked.
-  The `control_placeholder` rows are smoke-test only, not matched controls.
+- Built and tested (16 tests): scoring engine, Yahoo collector, annual-report extractor
+  (`src/extract.py`), score merge, weekly workflow.
+- First live run: Yahoo works from GitHub but returns only 3-5 fiscal years, which is
+  after most fraud events. Older years therefore come from annual reports: each report
+  holds two years of statements.
+- Extractor: Gemini returns fixed-type signals with verbatim quotes plus the statements.
+  A quote is kept only if it appears in the PDF text; statements are kept only if
+  assets = equity + liabilities (2% tolerance). Results are cached in `data/signals/`.
+- Add reports by appending rows to `config/reports.csv` (company, fy, pdf url).
+  Only one is seeded so far. Not yet run live on a real PDF.
+- Not built yet: matched control firms, the combined model and backtest, dashboard.
+- `config/universe.csv`: flagged cases are still `to_verify`; control rows are placeholders.
 
 ## Known limits
 - Yahoo usually exposes only the last few fiscal years of statements, so long

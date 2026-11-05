@@ -27,6 +27,11 @@ jobs:
         run: python -m pytest -q
       - name: Collect financial statements
         run: python -m src.collect
+      - name: Extract annual reports (Gemini)
+        continue-on-error: true   # extraction problems must never block scoring
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python -m src.extract
       - name: Score companies
         run: python -m src.run
       - name: Commit refreshed data
