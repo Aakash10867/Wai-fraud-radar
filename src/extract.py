@@ -126,7 +126,7 @@ def to_rupees(year: dict, unit: str) -> dict:
 def build_prompt(text: str) -> str:
     fields = ", ".join(f'"{k}": <number|null>' for k in FIELDS)
     return PROMPT.format(types=", ".join(SIGNAL_TYPES), fields=fields,
-                         field_list=", ".join(FIELDS), text=text[:600_000])
+                         field_list=", ".join(FIELDS), text=text[:300_000])
 
 
 def call_gemini(prompt: str, purpose: str = "extract report") -> str:
@@ -218,10 +218,12 @@ def main() -> None:
                 out.write_text(json.dumps(process(r["company"], int(r["fy"]), r["url"]), indent=1))
                 status = "ok"
             except Exception as exc:
-                status = f"error: {type(exc).__name__}: {str(exc)[:120]}"
-            time.sleep(2)
+                status = f"error: {type(exc).__name__}: {str(exc)[:350]}"
+            time.sleep(20)  # stay under free-tier requests- and tokens-per-minute limits
         log.append({"company": r["company"], "fy": r["fy"], "status": status, "checked_utc": stamp})
         print(log[-1])
+        if status.startswith("error:") and any(t in status for t in ("429", "503", "RESOURCE_EXHAUSTED", "UNAVAILABLE")):
+            break  # quota or outage: stop instead of hammering; the next scheduled run resumes (cached files skipped)
     rebuild_financials()
     if log:
         pd.DataFrame(log).to_csv(LOG, index=False)

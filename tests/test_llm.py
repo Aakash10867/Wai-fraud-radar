@@ -28,3 +28,14 @@ def test_retired_model_error_detected():
     err = Exception("404 NOT_FOUND. This model models/x is no longer available to new users")
     assert is_model_unavailable(err)
     assert not is_model_unavailable(Exception("429 RESOURCE_EXHAUSTED quota"))
+
+
+def test_transient_errors_and_retry_delay():
+    from src.llm import is_transient, retry_delay
+
+    assert is_transient(Exception("503 UNAVAILABLE. high demand"))
+    assert is_transient(Exception("429 RESOURCE_EXHAUSTED"))
+    assert not is_transient(Exception("400 INVALID_ARGUMENT"))
+    assert retry_delay(Exception("Please retry in 12.5s.")) == 13.5
+    assert retry_delay(Exception("'retryDelay': '600s'")) == 45.0
+    assert retry_delay(Exception("no hint")) == 20.0

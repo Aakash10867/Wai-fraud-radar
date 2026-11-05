@@ -34,3 +34,12 @@ def test_discover_skips_bad_candidates_and_returns_first_verified():
 def test_discover_reports_failure_reason():
     url, note = discover_one("X Y", 2019, finder=lambda c, fy: [], fetcher=None)
     assert url is None and note == "no_candidates"
+
+
+def test_parse_ddg_keeps_only_report_like_links():
+    from src.discover import parse_ddg
+
+    page = ('<a class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fexample.com%2Fdocs%2FAR-2019.pdf&rut=abc">x</a>'
+            '<a class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fexample.com%2Fabout&rut=def">y</a>'
+            '<a href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fexample.com%2Fdocs%2FAR-2019.pdf&rut=ghi">z</a>')
+    assert parse_ddg(page) == ["https://example.com/docs/AR-2019.pdf"]

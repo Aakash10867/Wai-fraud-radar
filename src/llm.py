@@ -10,6 +10,7 @@ import datetime as dt
 import json
 import os
 import re
+import time
 from pathlib import Path
 
 PROMPT_LOG = Path("logs/prompt_log.jsonl")
@@ -40,6 +41,16 @@ def rank_models(models) -> list[str]:
 def is_model_unavailable(exc: Exception) -> bool:
     s = str(exc)
     return "404" in s or "NOT_FOUND" in s or "no longer available" in s
+
+
+def is_transient(exc: Exception) -> bool:
+    s = str(exc)
+    return any(t in s for t in ("503", "UNAVAILABLE", "429", "RESOURCE_EXHAUSTED", "high demand", "overloaded"))
+
+
+def retry_delay(exc: Exception, default: float = 20.0, cap: float = 45.0) -> float:
+    m = re.search(r"retry(?:Delay)?\D{0,12}?(\d+(?:\.\d+)?)\s*s", str(exc), re.I)
+    return min(float(m.group(1)) + 1 if m else default, cap)
 
 
 def candidate_models(client) -> list[str]:
@@ -83,14 +94,21 @@ def generate(prompt: str, search: bool = False, json_out: bool = False, purpose:
         cfg["tools"] = [types.Tool(google_search=types.GoogleSearch())]
     last: Exception | None = None
     for model in candidate_models(client):
-        try:
-            resp = client.models.generate_content(
-                model=model, contents=prompt, config=types.GenerateContentConfig(**cfg))
-            print("gemini model used:", model)
-            log_call(model, purpose, prompt, resp.text or "")
-            return resp.text or ""
-        except Exception as exc:
-            last = exc
-            if not is_model_unavailable(exc):
-                raise
+        for attempt in range(2):
+            try:
+                resp = client.models.generate_content(
+                    model=model, contents=prompt, config=types.GenerateContentConfig(**cfg))
+                print("gemini model used:", model)
+                log_call(model, purpose, prompt, resp.text or "")
+                return resp.text or ""
+            except Exception as exc:
+                last = exc
+                if is_model_unavailable(exc):
+                    break  # retired model: go straight to the next one
+                if not is_transient(exc):
+                    raise
+                if attempt == 0:
+                    time.sleep(retry_delay(exc))  # busy or rate-limited: wait once, then move on
+                else:
+                    break
     raise last or RuntimeError("no Gemini model available")

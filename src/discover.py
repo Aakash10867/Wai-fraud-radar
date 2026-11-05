@@ -14,6 +14,8 @@ import re
 import time
 from pathlib import Path
 
+from urllib.parse import unquote
+
 import pandas as pd
 
 from .extract import REPORTS, download_pdf_pages, norm
@@ -35,7 +37,38 @@ def looks_right(pages: list[str], company: str, fy: int) -> bool:
     return bool(name) and name in head and "annual report" in head and any(f in head for f in year_forms)
 
 
+def parse_ddg(page: str) -> list[str]:
+    """Pull result links (the uddg= redirect parameter) that look like annual-report PDFs."""
+    urls = [unquote(m) for m in re.findall(r"uddg=([^&\"']+)", page)]
+    keep = [u for u in urls if re.search(r"\.pdf($|\?)", u, re.I) or "annualreport" in u.lower()]
+    return list(dict.fromkeys(keep))
+
+
+def search_web(company: str, fy: int) -> list[str]:
+    """Free web search (no key, no quota). Candidates are verified later, so noise is harmless."""
+    import requests
+
+    q = f"{company} annual report {fy - 1}-{str(fy)[-2:]} pdf"
+    r = requests.get("https://html.duckduckgo.com/html/", params={"q": q}, timeout=30,
+                     headers={"User-Agent": "Mozilla/5.0 (academic research)"})
+    r.raise_for_status()
+    return parse_ddg(r.text)
+
+
 def find_candidates(company: str, fy: int) -> list[str]:
+    found, errors = [], []
+    for search in (search_web, search_gemini):
+        try:
+            found += search(company, fy)
+        except Exception as exc:
+            errors.append(exc)
+    found = list(dict.fromkeys(found))
+    if not found and len(errors) == 2:
+        raise errors[-1]  # both routes broke: report it as an infrastructure error
+    return found[:6]
+
+
+def search_gemini(company: str, fy: int) -> list[str]:
     from .llm import generate
 
     prompt = (
@@ -87,7 +120,7 @@ def main() -> None:
             try:
                 url, note = discover_one(u["company"], fy)
             except Exception as exc:  # quota, network, SDK change
-                url, note = None, f"error:{type(exc).__name__}:{str(exc)[:100]}"
+                url, note = None, f"error:{type(exc).__name__}:{str(exc)[:350]}"
             infra_error = note.startswith("error:")  # not the report's fault: don't use up an attempt
             rows[key] = {"company": u["company"], "fy": fy, "url": url or "",
                          "status": "ok" if url else note,
