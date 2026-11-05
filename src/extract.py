@@ -68,9 +68,10 @@ FIELD_DEFS = {
 }
 
 STATEMENT_HINTS = (
-    ("total assets", "total equity and liabilities", "balance sheet"),
-    ("revenue from operations", "total income", "profit before tax", "statement of profit and loss"),
-    ("net cash", "cash flow"),
+    ("total assets", "total equity and liabilities", "equity and liabilities", "non-current liabilities",
+     "current liabilities", "non-current assets"),
+    ("revenue from operations", "total income", "total expenses", "profit before tax", "earnings per share"),
+    ("cash flow", "operating activities", "investing activities", "financing activities", "net cash"),
 )
 
 PROMPT = """You are extracting facts from an Indian listed company's annual report text.
@@ -104,11 +105,14 @@ def norm(s: str) -> str:
 
 
 def statement_pages(pages: list[str], per_kind: int = 3) -> set[int]:
-    """Pages most likely to hold the balance sheet, profit and loss and cash flow statements."""
+    """Pages holding the balance sheet, profit and loss and cash flow statements.
+
+    A real statement page contains many DIFFERENT statement phrases at once, whereas a notes
+    page repeats one phrase, so pages are ranked by the number of distinct phrases present."""
     chosen: set[int] = set()
     for hints in STATEMENT_HINTS:
-        scored = sorted(((sum(p.lower().count(h) for h in hints), i) for i, p in enumerate(pages)), reverse=True)
-        chosen.update(i for sc, i in scored[:per_kind] if sc > 0)
+        scored = sorted(((sum(h in p.lower() for h in hints), i) for i, p in enumerate(pages)), reverse=True)
+        chosen.update(i for sc, i in scored[:per_kind] if sc >= 3)
     return chosen
 
 
@@ -242,7 +246,7 @@ def main() -> None:
     SIGNAL_DIR.mkdir(parents=True, exist_ok=True)
     LOG.parent.mkdir(parents=True, exist_ok=True)
     log = []
-    t0 = time.time()
+    t0, busy = time.time(), 0
     budget = float(os.environ.get("EXTRACT_BUDGET_MIN", "40")) * 60
     for _, r in reports.fillna("").iterrows():
         if not r["url"]:
@@ -264,7 +268,12 @@ def main() -> None:
         log.append({"company": r["company"], "fy": r["fy"], "status": status, "checked_utc": stamp})
         print(log[-1])
         if status.startswith("error:") and any(t in status for t in ("429", "503", "RESOURCE_EXHAUSTED", "UNAVAILABLE")):
-            break  # quota or outage: stop instead of hammering; the next scheduled run resumes (cached files skipped)
+            busy += 1
+            if busy >= 3:
+                break  # three busy errors in a row: stop; the next run resumes (cached files are skipped)
+            time.sleep(90)  # the model is busy; wait and carry on with the next report
+        else:
+            busy = 0
     rebuild_financials()
     if log:
         pd.DataFrame(log).to_csv(LOG, index=False)

@@ -46,7 +46,7 @@ def test_parse_response_strips_fences():
 
 def test_select_pages_puts_statements_first_and_drops_irrelevant():
     pages = ["cover", "chairman message", "Independent Auditor's Report going concern",
-             "Balance Sheet total assets total equity and liabilities", "Notes related party"]
+             "Balance Sheet total assets total equity and liabilities non-current liabilities current liabilities", "Notes related party"]
     out = select_pages(pages, cap=3)
     assert "[page 1]" not in out and "[page 2]" not in out
     assert out.index("[page 4]") < out.index("[page 3]")  # statement page leads
@@ -71,3 +71,13 @@ def test_gap_year_not_scored_against_non_adjacent_year():
     out = score_company(df)
     assert list(out.index) == [2020, 2021, 2022]
     assert out["M"].isna().all()
+
+
+def test_statement_pages_prefer_real_statements_over_repeating_notes():
+    from src.extract import statement_pages
+
+    notes = "total assets total assets total assets total assets"  # repeats one phrase
+    balance = "Balance Sheet Non-current assets Total assets Equity and liabilities Current liabilities Total equity and liabilities"
+    pages = ["cover", notes, balance, "cash flow statement operating activities investing activities financing activities net cash"]
+    chosen = statement_pages(pages)
+    assert 2 in chosen and 3 in chosen and 1 not in chosen
