@@ -1,7 +1,0 @@
-company,fy,status,checked_utc
-Reliance Infrastructure,2020,ok,2026-11-05T11:47:40+00:00
-CG Power and Industrial Solutions,2018,ok,2026-11-05T11:55:10+00:00
-CG Power and Industrial Solutions,2016,ok,2026-11-05T11:59:03+00:00
-Siemens,2018,ok,2026-11-05T12:02:00+00:00
-Siemens,2017,ok,2026-11-05T12:05:19+00:00
-Siemens,2016,"error: ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}",2026-11-05T12:07:56+00:00
