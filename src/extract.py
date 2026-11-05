@@ -28,8 +28,6 @@ SIGNAL_DIR = Path("data/signals")
 FIN_DIR = Path("data/reports_fin")
 LOG = Path("data/extraction_log.csv")
 
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
-
 SIGNAL_TYPES = [
     "auditor_qualified_opinion",
     "auditor_emphasis_of_matter",
@@ -132,15 +130,9 @@ def build_prompt(text: str) -> str:
 
 
 def call_gemini(prompt: str) -> str:
-    from google import genai
-    from google.genai import types
+    from .llm import generate
 
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    resp = client.models.generate_content(
-        model=MODEL, contents=prompt,
-        config=types.GenerateContentConfig(response_mime_type="application/json", temperature=0),
-    )
-    return resp.text
+    return generate(prompt, json_out=True)
 
 
 def download_pdf_pages(url: str) -> list[str]:

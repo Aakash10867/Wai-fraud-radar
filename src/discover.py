@@ -16,7 +16,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .extract import MODEL, REPORTS, download_pdf_pages, norm
+from .extract import REPORTS, download_pdf_pages, norm
 
 UNIVERSE = Path("config/universe.csv")
 DISCOVERED = Path("data/report_urls.csv")
@@ -36,8 +36,7 @@ def looks_right(pages: list[str], company: str, fy: int) -> bool:
 
 
 def find_candidates(company: str, fy: int) -> list[str]:
-    from google import genai
-    from google.genai import types
+    from .llm import generate
 
     prompt = (
         f"Find the official annual report PDF of {company} (an India-listed company) for the "
@@ -45,13 +44,8 @@ def find_candidates(company: str, fy: int) -> list[str]:
         "URLs to the PDF file, one per line, nothing else. Prefer the company's own website, "
         "bseindia.com or nseindia.com. If you cannot find a direct link, return NONE."
     )
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    resp = client.models.generate_content(
-        model=MODEL, contents=prompt,
-        config=types.GenerateContentConfig(tools=[types.Tool(google_search=types.GoogleSearch())],
-                                           temperature=0),
-    )
-    urls = re.findall(r"https?://[^\s<>\"')\]]+", resp.text or "")
+    text = generate(prompt, search=True)
+    urls = re.findall(r"https?://[^\s<>\"')\]]+", text)
     return list(dict.fromkeys(u.rstrip(".,;") for u in urls))[:4]
 
 
@@ -80,9 +74,10 @@ def main() -> None:
     manual = pd.read_csv(REPORTS) if REPORTS.exists() else pd.DataFrame(columns=["company", "fy", "url"])
     done = {(r.company, int(r.fy)) for r in manual.itertuples() if r.url}
     rows = {(r.company, int(r.fy)): r._asdict() for r in known.itertuples(index=False)}
+    outage = False
     for _, u in universe.iterrows():
         event = pd.to_numeric(u["event_year"], errors="coerce")
-        if pd.isna(event):
+        if pd.isna(event) or outage:
             continue
         for fy in target_years(int(event)):
             key = (u["company"], fy)
@@ -92,12 +87,16 @@ def main() -> None:
             try:
                 url, note = discover_one(u["company"], fy)
             except Exception as exc:  # quota, network, SDK change
-                url, note = None, f"error:{type(exc).__name__}"
+                url, note = None, f"error:{type(exc).__name__}:{str(exc)[:100]}"
+            infra_error = note.startswith("error:")  # not the report's fault: don't use up an attempt
             rows[key] = {"company": u["company"], "fy": fy, "url": url or "",
                          "status": "ok" if url else note,
-                         "attempts": (prev["attempts"] if prev else 0) + 1,
+                         "attempts": (prev["attempts"] if prev else 0) + (0 if infra_error else 1),
                          "checked_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}
             print(rows[key])
+            if infra_error:
+                outage = True  # stop the run instead of burning quota on a systemic failure
+                break
             time.sleep(3)
     DISCOVERED.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(list(rows.values()), columns=cols).to_csv(DISCOVERED, index=False)
