@@ -44,16 +44,17 @@ def test_parse_response_strips_fences():
     assert parse_response('```json\n{"a": 1}\n```') == {"a": 1}
 
 
-def test_select_pages_prefers_relevant_and_keeps_order():
-    pages = ["cover", "chairman message", "Independent Auditor's Report going concern", "Balance Sheet related party"]
-    out = select_pages(pages, cap=2)
-    assert "[page 3]" in out and "[page 4]" in out and "[page 1]" not in out
-    assert out.index("[page 3]") < out.index("[page 4]")
+def test_select_pages_puts_statements_first_and_drops_irrelevant():
+    pages = ["cover", "chairman message", "Independent Auditor's Report going concern",
+             "Balance Sheet total assets total equity and liabilities", "Notes related party"]
+    out = select_pages(pages, cap=3)
+    assert "[page 1]" not in out and "[page 2]" not in out
+    assert out.index("[page 4]") < out.index("[page 3]")  # statement page leads
 
 
 def test_prompt_lists_every_field():
     p = build_prompt("x")
-    assert "total_liabilities" in p and "going_concern_doubt" in p
+    assert "total_liabilities" in p and "going_concern_doubt" in p and "profit after tax" in p
 
 
 def test_slug_and_norm():

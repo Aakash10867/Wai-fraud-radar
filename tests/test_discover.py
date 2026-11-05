@@ -4,7 +4,7 @@ GOOD = ["Reliance Infrastructure Limited  Annual Report 2018–19", "page two"]
 
 
 def test_target_years_cover_six_fiscal_years():
-    assert target_years(2019) == [2019, 2017, 2015]
+    assert target_years(2019) == [2018, 2017, 2016]
 
 
 def test_looks_right_accepts_matching_report():
@@ -65,3 +65,18 @@ def test_find_candidates_survives_dead_gemini_and_raises_only_when_all_routes_fa
 
     with pytest.raises(RuntimeError):
         d.find_candidates("A B", 2019)
+
+
+def test_former_name_and_calendar_year_filer_accepted():
+    old = ["Crompton Greaves Limited  Annual Report 2015-16"]
+    assert not looks_right(old, "CG Power and Industrial Solutions", 2016)
+    assert looks_right(old, "CG Power and Industrial Solutions", 2016, aliases=["Crompton Greaves"])
+    assert looks_right(["ABB India Limited Annual Report 2017"], "ABB India", 2017)
+
+
+def test_pattern_urls_use_two_digit_year_and_skip_blank_ids():
+    from src.discover import pattern_urls
+
+    urls = pattern_urls("63.0", 2016)
+    assert urls[0] == "https://files.tijorifinance.com/insight/india/63/Annual%20Report/AR-16.pdf"
+    assert len(urls) == 2 and pattern_urls("", 2016) == []

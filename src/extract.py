@@ -48,6 +48,31 @@ KEYWORDS = [
     "internal financial controls", "resignation of", "restate",
 ]
 
+FIELD_DEFS = {
+    "revenue": "revenue from operations",
+    "cogs": "cost of materials consumed + purchases of stock-in-trade + changes in inventories (not employee, depreciation or other expenses)",
+    "receivables": "trade receivables (current)",
+    "current_assets": "total current assets",
+    "ppe": "net property, plant and equipment (excluding capital work in progress)",
+    "total_assets": "total assets",
+    "depreciation": "depreciation and amortisation expense for the year",
+    "sga": "selling, general and administrative expenses ONLY if one such line exists, otherwise null",
+    "current_liabilities": "total current liabilities",
+    "long_term_debt": "non-current borrowings",
+    "net_income": "profit after tax for the year",
+    "cfo": "net cash from operating activities",
+    "retained_earnings": "retained earnings / surplus in the statement of profit and loss (or reserves and surplus)",
+    "ebit": "profit before tax plus finance costs",
+    "equity": "total equity (including non-controlling interests)",
+    "total_liabilities": "total non-current liabilities + total current liabilities (excludes equity)",
+}
+
+STATEMENT_HINTS = (
+    ("total assets", "total equity and liabilities", "balance sheet"),
+    ("revenue from operations", "total income", "profit before tax", "statement of profit and loss"),
+    ("net cash", "cash flow"),
+)
+
 PROMPT = """You are extracting facts from an Indian listed company's annual report text.
 Return ONLY JSON, no commentary, with this exact shape:
 {{
@@ -59,8 +84,10 @@ Return ONLY JSON, no commentary, with this exact shape:
 }}
 Rules: include every signal type once. A quote must be copied exactly, never paraphrased.
 "current" is the report year, "prior" the comparative year, using the standalone or consolidated
-statements consistently. Use null for any field you cannot find; never guess. Costs and
-liabilities are positive numbers. Fields: {field_list}.
+statements consistently: prefer the STANDALONE statements; use consolidated only if there are no standalone ones.
+Use null for any field you cannot find; never guess. Costs and liabilities are positive numbers.
+All amounts are in the unit of the statements. Field definitions:
+{field_defs}
 
 REPORT TEXT:
 {text}
@@ -76,14 +103,22 @@ def norm(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip().lower()
 
 
+def statement_pages(pages: list[str], per_kind: int = 3) -> set[int]:
+    """Pages most likely to hold the balance sheet, profit and loss and cash flow statements."""
+    chosen: set[int] = set()
+    for hints in STATEMENT_HINTS:
+        scored = sorted(((sum(p.lower().count(h) for h in hints), i) for i, p in enumerate(pages)), reverse=True)
+        chosen.update(i for sc, i in scored[:per_kind] if sc > 0)
+    return chosen
+
+
 def select_pages(pages: list[str], cap: int = 70) -> str:
-    """Keep the pages most likely to hold the auditor report, statements and notes."""
-    scored = []
-    for i, p in enumerate(pages):
-        low = p.lower()
-        scored.append((sum(low.count(k) for k in KEYWORDS), i))
-    keep = sorted(i for s, i in sorted(scored, reverse=True)[:cap] if s > 0)
-    return "\n\n".join(f"[page {i + 1}]\n{pages[i]}" for i in keep)
+    """Statement pages first, then the pages richest in auditor / related-party / control keywords."""
+    must = statement_pages(pages)
+    scores = {i: sum(p.lower().count(k) for k in KEYWORDS) for i, p in enumerate(pages)}
+    ranked = sorted((i for i, sc in scores.items() if sc > 0 and i not in must), key=lambda i: -scores[i])
+    rest = sorted(ranked[: max(cap - len(must), 0)])
+    return "\n\n".join(f"[page {i + 1}]\n{pages[i]}" for i in sorted(must) + rest)
 
 
 def verify_signals(signals: list[dict], text: str) -> tuple[list[dict], int]:
@@ -126,7 +161,7 @@ def to_rupees(year: dict, unit: str) -> dict:
 def build_prompt(text: str) -> str:
     fields = ", ".join(f'"{k}": <number|null>' for k in FIELDS)
     return PROMPT.format(types=", ".join(SIGNAL_TYPES), fields=fields,
-                         field_list=", ".join(FIELDS), text=text[:300_000])
+                         field_defs="\n".join(f"- {k}: {FIELD_DEFS[k]}" for k in FIELDS), text=text[:300_000])
 
 
 def call_gemini(prompt: str, purpose: str = "extract report") -> str:
@@ -171,6 +206,7 @@ def process(company: str, fy: int, url: str) -> dict:
             result["financials"].append({"fy": fy_year, **to_rupees(year, unit), "source": "annual_report"})
         else:
             result.setdefault("rejected", []).append(f"{key}: failed balance check or unit missing")
+            result.setdefault("raw_rejected", {})[key] = year
     return result
 
 

@@ -27,15 +27,18 @@ BUDGET_S = float(os.environ.get("DISCOVER_BUDGET_MIN", "30")) * 60
 
 
 def target_years(event_year: int, n: int = 3) -> list[int]:
-    return [event_year - 2 * i for i in range(n)]
+    """The reports for the three fiscal years before the event: E-1, E-2, E-3."""
+    return [event_year - i for i in range(1, n + 1)]
 
 
-def looks_right(pages: list[str], company: str, fy: int) -> bool:
-    head = norm(" ".join(pages[:8])).replace("–", "-").replace("—", "-")
-    name = " ".join(norm(company).split()[:2])
+def looks_right(pages: list[str], company: str, fy: int, aliases=()) -> bool:
+    head = norm(" ".join(pages[:15])).replace("\u2013", "-").replace("\u2014", "-")
+    names = [" ".join(norm(n).split()[:2]) for n in (company, *aliases) if n]
     yy = str(fy)[-2:]
-    year_forms = (f"{fy - 1}-{yy}", f"{fy - 1}-{fy}", f"{fy - 1} - {yy}")
-    return bool(name) and name in head and "annual report" in head and any(f in head for f in year_forms)
+    year_forms = (f"{fy - 1}-{yy}", f"{fy - 1}-{fy}", f"{fy - 1} - {yy}",
+                  f"annual report {fy}", f"{fy} annual report", f"december 31, {fy}", f"december {fy}")
+    return (any(n and n in head for n in names) and "annual report" in head
+            and any(f in head for f in year_forms))
 
 
 def parse_ddg(page: str) -> list[str]:
@@ -56,12 +59,23 @@ def search_web(company: str, fy: int) -> list[str]:
     return parse_ddg(r.text)
 
 
+INDEX_HOSTS = ("https://files.tijorifinance.com", "https://stockdiscovery.s3.amazonaws.com")
+
+
+def pattern_urls(report_id, fy: int) -> list[str]:
+    """Public annual-report index: <host>/insight/india/<id>/Annual%20Report/AR-<yy>.pdf."""
+    rid = str(report_id).strip().removesuffix(".0")
+    if not rid:
+        return []
+    return [f"{h}/insight/india/{rid}/Annual%20Report/AR-{str(fy)[-2:]}.pdf" for h in INDEX_HOSTS]
+
+
 _gemini_down = False  # once Gemini search hits quota, skip it for the rest of the run
 
 
-def find_candidates(company: str, fy: int) -> list[str]:
+def find_candidates(company: str, fy: int, report_id="") -> list[str]:
     global _gemini_down
-    found, errors, tried = [], [], 0
+    found, errors, tried = pattern_urls(report_id, fy), [], 0
     for search in (search_web, search_gemini):
         if search is search_gemini and _gemini_down:
             continue
@@ -73,9 +87,9 @@ def find_candidates(company: str, fy: int) -> list[str]:
             if search is search_gemini:
                 _gemini_down = True
     found = list(dict.fromkeys(found))
-    if not found and errors and len(errors) == tried:
+    if not found and errors and len(errors) == tried:  # only when nothing at all was found
         raise errors[-1]  # every route we tried failed: an infrastructure problem, not the report's fault
-    return found[:6]
+    return found[:8]
 
 
 def search_gemini(company: str, fy: int) -> list[str]:
@@ -92,7 +106,7 @@ def search_gemini(company: str, fy: int) -> list[str]:
     return list(dict.fromkeys(u.rstrip(".,;") for u in urls))[:4]
 
 
-def discover_one(company: str, fy: int, finder=find_candidates, fetcher=download_pdf_pages):
+def discover_one(company: str, fy: int, finder=find_candidates, fetcher=download_pdf_pages, aliases=()):
     """Return (url or None, note). Injectable finder/fetcher keep this testable offline."""
     notes = []
     for url in finder(company, fy):
@@ -101,7 +115,7 @@ def discover_one(company: str, fy: int, finder=find_candidates, fetcher=download
         except Exception as exc:
             notes.append(f"{type(exc).__name__}")
             continue
-        if looks_right(pages, company, fy):
+        if looks_right(pages, company, fy, aliases):
             return url, "verified"
         notes.append("wrong_doc")
     return None, ",".join(notes) or "no_candidates"
@@ -138,7 +152,9 @@ def main() -> None:
             if key in done or (prev and (prev["status"] == "ok" or prev["attempts"] >= MAX_ATTEMPTS)):
                 continue
             try:
-                url, note = discover_one(u["company"], fy)
+                aliases = [a.strip() for a in str(u.get("former_names", "")).split(";") if a.strip()]
+                url, note = discover_one(u["company"], fy, aliases=aliases,
+                                         finder=lambda c, y, rid=u.get("report_id", ""): find_candidates(c, y, rid))
             except Exception as exc:  # quota, network, SDK change
                 url, note = None, f"error:{type(exc).__name__}:{str(exc)[:350]}"
             infra_error = note.startswith("error:")  # not the report's fault: don't use up an attempt
