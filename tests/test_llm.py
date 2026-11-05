@@ -46,3 +46,9 @@ def test_daily_quota_detected_but_per_minute_is_not():
 
     assert is_daily_quota(Exception("429 RESOURCE_EXHAUSTED ... GenerateRequestsPerDayPerProjectPerModel-FreeTier limit: 20"))
     assert not is_daily_quota(Exception("429 RESOURCE_EXHAUSTED ... PerMinute ... retry in 12s"))
+
+
+def test_dropped_connection_is_transient():
+    from src.llm import is_transient
+
+    assert is_transient(Exception("RemoteProtocolError: Server disconnected without sending a response."))

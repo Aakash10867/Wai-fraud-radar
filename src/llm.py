@@ -53,7 +53,9 @@ def is_daily_quota(exc: Exception) -> bool:
 
 def is_transient(exc: Exception) -> bool:
     s = str(exc)
-    return any(t in s for t in ("503", "UNAVAILABLE", "429", "RESOURCE_EXHAUSTED", "high demand", "overloaded"))
+    return any(t in s for t in ("503", "UNAVAILABLE", "429", "RESOURCE_EXHAUSTED", "high demand", "overloaded",
+                                "500 INTERNAL", "502", "504", "DEADLINE_EXCEEDED", "RemoteProtocolError",
+                                "Server disconnected", "ReadTimeout", "ConnectError", "timed out", "Connection reset"))
 
 
 def retry_delay(exc: Exception, default: float = 20.0, cap: float = 45.0) -> float:

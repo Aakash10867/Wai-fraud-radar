@@ -130,7 +130,7 @@ def verify_signals(signals: list[dict], text: str) -> tuple[list[dict], int]:
     haystack = norm(text)
     kept, dropped = [], 0
     for s in signals or []:
-        if s.get("type") not in SIGNAL_TYPES:
+        if not isinstance(s, dict) or s.get("type") not in SIGNAL_TYPES:
             dropped += 1
             continue
         if not s.get("present"):
@@ -154,7 +154,12 @@ def balance_ok(year: dict, tol: float = 0.02) -> bool:
 def parse_response(raw: str) -> dict:
     raw = raw.strip()
     raw = re.sub(r"^```(?:json)?|```$", "", raw, flags=re.MULTILINE).strip()
-    return json.loads(raw)
+    data = json.loads(raw)
+    if isinstance(data, list):  # the model sometimes wraps the object in a list
+        data = next((d for d in data if isinstance(d, dict)), None)
+    if not isinstance(data, dict):
+        raise ValueError("model did not return a JSON object")
+    return data
 
 
 def to_rupees(year: dict, unit: str) -> dict:
@@ -204,7 +209,8 @@ def process(company: str, fy: int, url: str) -> dict:
     result = {"company": company, "report_fy": fy, "url": url, "unit": unit,
               "signals": signals, "dropped_unverified": dropped, "financials": []}
     for key in ("current", "prior"):
-        year = data.get(key) or {}
+        year = data.get(key)
+        year = year if isinstance(year, dict) else {}
         fy_year = fy if key == "current" else fy - 1
         if unit and balance_ok(year):
             result["financials"].append({"fy": fy_year, **to_rupees(year, unit), "source": "annual_report"})

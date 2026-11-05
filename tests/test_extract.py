@@ -81,3 +81,16 @@ def test_statement_pages_prefer_real_statements_over_repeating_notes():
     pages = ["cover", notes, balance, "cash flow statement operating activities investing activities financing activities net cash"]
     chosen = statement_pages(pages)
     assert 2 in chosen and 3 in chosen and 1 not in chosen
+
+
+def test_parse_response_unwraps_list_and_rejects_junk():
+    assert parse_response('[{"fy": 2018}]') == {"fy": 2018}
+    import pytest
+
+    with pytest.raises(ValueError):
+        parse_response('["not an object"]')
+
+
+def test_verify_signals_ignores_non_dict_items():
+    kept, dropped = verify_signals(["junk", {"type": "going_concern_doubt", "present": False}], "text")
+    assert dropped == 1 and len(kept) == 1
