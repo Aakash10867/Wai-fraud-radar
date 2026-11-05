@@ -39,11 +39,16 @@ jobs:
         run: python -m src.extract
       - name: Score companies
         run: python -m src.run
+      - name: Back-test and watchlist
+        run: python -m src.backtest
+      - name: Build dashboard
+        run: python -m src.dashboard
       - name: Commit refreshed data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data results
+          git pull --rebase origin main || true
+          git add data results logs docs
           if git diff --cached --quiet; then
             echo "No changes"
           else

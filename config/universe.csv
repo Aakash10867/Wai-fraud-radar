@@ -1,10 +1,11 @@
-company,yahoo_ticker,group,event_year,evidence,status
-CG Power and Industrial Solutions,CGPOWER.NS,flagged,2019,SEBI order Sept 2019 against ex-chairman,to_verify
-Gensol Engineering,GENSOL.NS,flagged,2025,SEBI-ordered forensic audit 2025,to_verify
-Reliance Infrastructure,RELINFRA.NS,flagged,,Course case (session 9) - event year and label to verify,to_verify
-Nitesh Estates,,flagged,,SEBI-ordered forensic audit - ticker to find,to_verify
-Seya Industries,,flagged,,SEBI penalty for fund diversion - ticker to find,to_verify
-Ricoh India,,flagged,2015,Course case (sessions 12-13) - likely delisted so no Yahoo ticker,to_verify
-TCS,TCS.NS,control_placeholder,,Smoke test only - not a matched control,placeholder
-Infosys,INFY.NS,control_placeholder,,Smoke test only - not a matched control,placeholder
-Asian Paints,ASIANPAINT.NS,control_placeholder,,Smoke test only - not a matched control,placeholder
+company,yahoo_ticker,group,event_year,match_to,evidence,status
+CG Power and Industrial Solutions,CGPOWER.NS,flagged,2019,,SEBI order Sept 2019 against ex-chairman; disclosed irregularities in FY2018-19,to_verify
+Gensol Engineering,GENSOL.NS,flagged,2025,,SEBI-ordered forensic audit April 2025,to_verify
+Ricoh India,,flagged,2015,,Course case; likely delisted so no Yahoo ticker,to_verify
+Reliance Infrastructure,RELINFRA.NS,flagged,,,Course case; event year and label not yet verified so excluded from the backtest,to_verify
+Siemens,SIEMENS.NS,control,,CG Power and Industrial Solutions,Heavy-electrical peer with no known accounting action,ticker_unchecked
+ABB India,ABB.NS,control,,CG Power and Industrial Solutions,Heavy-electrical peer with no known accounting action,ticker_unchecked
+Thermax,THERMAX.NS,control,,CG Power and Industrial Solutions,Capital-goods peer with no known accounting action,ticker_unchecked
+Suzlon Energy,SUZLON.NS,control,,Gensol Engineering,Renewable-energy peer; check no action in the window,ticker_unchecked
+KPI Green Energy,KPIGREEN.NS,control,,Gensol Engineering,Renewable-energy peer; check no action in the window,ticker_unchecked
+Borosil Renewables,BORORENEW.NS,control,,Gensol Engineering,Solar-sector peer with no known accounting action,ticker_unchecked

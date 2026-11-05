@@ -129,10 +129,10 @@ def build_prompt(text: str) -> str:
                          field_list=", ".join(FIELDS), text=text[:600_000])
 
 
-def call_gemini(prompt: str) -> str:
+def call_gemini(prompt: str, purpose: str = "extract report") -> str:
     from .llm import generate
 
-    return generate(prompt, json_out=True)
+    return generate(prompt, json_out=True, purpose=purpose)
 
 
 def download_pdf_pages(url: str) -> list[str]:
@@ -159,7 +159,7 @@ def process(company: str, fy: int, url: str) -> dict:
     text = select_pages(pages)
     if not text.strip():
         raise ValueError("no readable text (scanned PDF?)")
-    data = parse_response(call_gemini(build_prompt(text)))
+    data = parse_response(call_gemini(build_prompt(text), f"extract signals+financials: {company} FY{fy}"))
     signals, dropped = verify_signals(data.get("signals", []), text)
     unit = data.get("unit") if data.get("unit") in UNIT_FACTOR else None
     result = {"company": company, "report_fy": fy, "url": url, "unit": unit,

@@ -17,8 +17,8 @@ from pathlib import Path
 import pandas as pd
 
 from .extract import REPORTS, download_pdf_pages, norm
+from .universe import load_universe
 
-UNIVERSE = Path("config/universe.csv")
 DISCOVERED = Path("data/report_urls.csv")
 MAX_ATTEMPTS = 3
 
@@ -44,7 +44,7 @@ def find_candidates(company: str, fy: int) -> list[str]:
         "URLs to the PDF file, one per line, nothing else. Prefer the company's own website, "
         "bseindia.com or nseindia.com. If you cannot find a direct link, return NONE."
     )
-    text = generate(prompt, search=True)
+    text = generate(prompt, search=True, purpose=f"find report link: {company} FY{fy}")
     urls = re.findall(r"https?://[^\s<>\"')\]]+", text)
     return list(dict.fromkeys(u.rstrip(".,;") for u in urls))[:4]
 
@@ -68,15 +68,15 @@ def main() -> None:
     if not os.environ.get("GEMINI_API_KEY"):
         print("GEMINI_API_KEY missing; skipping discovery")
         return
-    universe = pd.read_csv(UNIVERSE).fillna("")
-    cols = ["company", "fy", "url", "status", "attempts", "checked_utc"]
+    universe = load_universe()
+    cols =["company", "fy", "url", "status", "attempts", "checked_utc"]
     known = pd.read_csv(DISCOVERED) if DISCOVERED.exists() else pd.DataFrame(columns=cols)
     manual = pd.read_csv(REPORTS) if REPORTS.exists() else pd.DataFrame(columns=["company", "fy", "url"])
     done = {(r.company, int(r.fy)) for r in manual.itertuples() if r.url}
     rows = {(r.company, int(r.fy)): r._asdict() for r in known.itertuples(index=False)}
     outage = False
     for _, u in universe.iterrows():
-        event = pd.to_numeric(u["event_year"], errors="coerce")
+        event = u["event_resolved"]
         if pd.isna(event) or outage:
             continue
         for fy in target_years(int(event)):

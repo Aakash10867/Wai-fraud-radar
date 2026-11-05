@@ -6,8 +6,13 @@ reports "not found / no longer available". Set GEMINI_MODEL to force a specific 
 """
 from __future__ import annotations
 
+import datetime as dt
+import json
 import os
 import re
+from pathlib import Path
+
+PROMPT_LOG = Path("logs/prompt_log.jsonl")
 
 SKIP = ("lite", "image", "tts", "live", "audio", "robotics", "embedding", "native",
         "computer", "imagen", "veo", "gemma", "learnlm", "aqa")
@@ -53,7 +58,20 @@ def candidate_models(client) -> list[str]:
     return _cached
 
 
-def generate(prompt: str, search: bool = False, json_out: bool = False) -> str:
+def log_call(model: str, purpose: str, prompt: str, response: str, path: Path = PROMPT_LOG) -> None:
+    """Append-only prompt logbook (a required deliverable). Long inputs are truncated."""
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        rec = {"ts": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "model": model,
+               "purpose": purpose, "prompt_chars": len(prompt), "prompt_head": prompt[:1500],
+               "response_head": response[:3000]}
+        with path.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except OSError:
+        pass  # logging must never break a run
+
+
+def generate(prompt: str, search: bool = False, json_out: bool = False, purpose: str = "") -> str:
     from google import genai
     from google.genai import types
 
@@ -69,6 +87,7 @@ def generate(prompt: str, search: bool = False, json_out: bool = False) -> str:
             resp = client.models.generate_content(
                 model=model, contents=prompt, config=types.GenerateContentConfig(**cfg))
             print("gemini model used:", model)
+            log_call(model, purpose, prompt, resp.text or "")
             return resp.text or ""
         except Exception as exc:
             last = exc

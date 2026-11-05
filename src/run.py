@@ -12,8 +12,8 @@ import pandas as pd
 
 from .extract import slug
 from .scores import altman_z, beneish, benford
+from .universe import load_universe
 
-UNIVERSE = Path("config/universe.csv")
 YAHOO_DIR = Path("data/financials")
 REPORT_DIR = Path("data/reports_fin")
 OUT = Path("results/scores.csv")
@@ -47,7 +47,7 @@ def score_company(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> None:
-    universe = pd.read_csv(UNIVERSE).fillna("")
+    universe = load_universe()
     parts = []
     for _, r in universe.iterrows():
         df = load_financials(str(r["yahoo_ticker"]).strip(), r["company"])
@@ -56,7 +56,7 @@ def main() -> None:
         scored = score_company(df).reset_index()
         scored.insert(0, "company", r["company"])
         scored.insert(1, "group", r["group"])
-        event = pd.to_numeric(r["event_year"], errors="coerce")
+        event = r["event_resolved"]
         scored["years_before_event"] = event - scored["fy"] if pd.notna(event) else pd.NA
         parts.append(scored)
     OUT.parent.mkdir(parents=True, exist_ok=True)
