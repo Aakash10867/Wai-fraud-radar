@@ -41,7 +41,7 @@ def make_scores():
 
 
 def test_window_excludes_event_year_and_text_adds_lead():
-    text = pd.DataFrame([{"company": "Bad Co", "fy": 2018, "text_pts": 2, "flags": "going_concern_doubt", "quote": "q"}])
+    text = pd.DataFrame([{"company": "Bad Co", "fy": 2018, "text_pts": 2, "text_pts_v2": 2, "flags": "going_concern_doubt", "quote": "q"}])
     t = build_table(make_scores(), text)
     assert t.loc[t.years_before_event == 0, "label"].isna().all()
     res = evaluate(t)
@@ -88,3 +88,19 @@ def test_prompt_log_appends(tmp_path):
     log_call("m", "purpose2", "a" * 5000, "b", path=p)
     lines = [json.loads(x) for x in p.read_text().splitlines()]
     assert len(lines) == 2 and lines[1]["prompt_chars"] == 5000 and len(lines[1]["prompt_head"]) == 1500
+
+
+def test_v2_rules_drop_routine_events_but_keep_real_warnings():
+    from src.guards import keep_signal
+
+    rotation = {"type": "auditor_resigned_or_changed", "quote": "appointed in place of retiring auditors at the AGM"}
+    resign = {"type": "auditor_resigned_or_changed", "quote": "the auditor resigned with effect from 3 May"}
+    ind_as = {"type": "delayed_or_restated_results", "quote": "restating the opening balance sheet on transition to Ind AS"}
+    restated = {"type": "delayed_or_restated_results", "quote": "the results for FY17 have been restated to correct an error"}
+    arms = {"type": "material_related_party_transactions", "quote": "all transactions were on an arm's length basis"}
+    assert not keep_signal(rotation) and keep_signal(resign)
+    assert not keep_signal(ind_as) and keep_signal(restated)
+    assert not keep_signal(arms)
+    assert keep_signal({"type": "going_concern_doubt", "quote": "anything"})  # other types unchanged
+    assert text_points([{"type": "auditor_resigned_or_changed", "present": True, "quote": rotation["quote"]}]) == (1, ["auditor_resigned_or_changed"])
+    assert text_points([{"type": "auditor_resigned_or_changed", "present": True, "quote": rotation["quote"]}], strict=True) == (0, [])

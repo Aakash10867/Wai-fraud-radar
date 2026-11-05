@@ -16,6 +16,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from .guards import keep_signal
+
 SCORES = Path("results/scores.csv")
 SIGNAL_DIR = Path("data/signals")
 OUT_JSON = Path("results/backtest.json")
@@ -47,8 +49,10 @@ def numeric_points(r) -> int:
     return pts
 
 
-def text_points(signals: list[dict]) -> tuple[int, list[str]]:
-    flags = [s["type"] for s in signals if s.get("present") and s.get("type") in TEXT_WEIGHTS]
+def text_points(signals: list[dict], strict: bool = False) -> tuple[int, list[str]]:
+    """strict=True applies the post-hoc v2 meaning rules from src/guards.py."""
+    flags = [s["type"] for s in signals if s.get("present") and s.get("type") in TEXT_WEIGHTS
+             and (not strict or keep_signal(s))]
     return sum(TEXT_WEIGHTS[f] for f in flags), flags
 
 
@@ -65,18 +69,23 @@ def load_text(signal_dir: Path = SIGNAL_DIR) -> pd.DataFrame:
     for f in sorted(signal_dir.glob("*.json")):
         d = json.loads(f.read_text())
         pts, flags = text_points(d.get("signals", []))
+        pts2, _ = text_points(d.get("signals", []), strict=True)
         quotes = [s["quote"] for s in d.get("signals", []) if s.get("present") and s.get("quote")]
-        rows.append({"company": d["company"], "fy": d["report_fy"], "text_pts": pts,
+        rows.append({"company": d["company"], "fy": d["report_fy"], "text_pts": pts, "text_pts_v2": pts2,
                      "flags": ";".join(flags), "quote": quotes[0] if quotes else ""})
-    return pd.DataFrame(rows, columns=["company", "fy", "text_pts", "flags", "quote"])
+    return pd.DataFrame(rows, columns=["company", "fy", "text_pts", "text_pts_v2", "flags", "quote"])
 
 
 def build_table(scores: pd.DataFrame, text: pd.DataFrame) -> pd.DataFrame:
     t = scores.merge(text, on=["company", "fy"], how="left")
+    if "text_pts_v2" not in t:
+        t["text_pts_v2"] = 0
     t["text_pts"] = t["text_pts"].fillna(0).astype(int)
+    t["text_pts_v2"] = t["text_pts_v2"].fillna(0).astype(int)
     t[["flags", "quote"]] = t[["flags", "quote"]].fillna("")
     t["num_pts"] = t.apply(numeric_points, axis=1)
     t["total_pts"] = t["num_pts"] + t["text_pts"]
+    t["total_pts_v2"] = t["num_pts"] + t["text_pts_v2"]
     yb = pd.to_numeric(t["years_before_event"], errors="coerce")
     in_window = yb.between(1, 3)
     t["label"] = np.where(in_window & (t["group"] == "flagged"), 1.0,
@@ -90,7 +99,8 @@ def evaluate(t: pd.DataFrame) -> dict:
            "flagged_firms": int(ev.loc[ev.label == 1, "company"].nunique()),
            "control_firms": int(ev.loc[ev.label == 0, "company"].nunique()),
            "firm_years": int(len(ev))}
-    for name, col in (("numbers_only", "num_pts"), ("numbers_plus_text", "total_pts")):
+    for name, col in (("numbers_only", "num_pts"), ("numbers_plus_text", "total_pts"),
+                      ("numbers_plus_text_v2", "total_pts_v2")):
         res = {"auc": auc(ev.loc[ev.label == 1, col], ev.loc[ev.label == 0, col])}
         by_firm = ev.groupby(["group", "company"])[col].max()
         flagged = by_firm.get("flagged", pd.Series(dtype=float))
@@ -125,12 +135,14 @@ def summary_md(res: dict) -> str:
         f"control firms, {res['firm_years']} firm-years (window E-3..E-1). Flag threshold: {res['threshold']} points.",
         "", "| Method | AUC | Detection rate | False-positive rate | Median lead (years) |", "|---|---|---|---|---|",
     ]
-    for name, label in (("numbers_only", "Numbers only"), ("numbers_plus_text", "Numbers + text")):
+    for name, label in (("numbers_only", "Numbers only"), ("numbers_plus_text", "Numbers + text (v1, fixed in advance)"),
+                        ("numbers_plus_text_v2", "Numbers + text (v2, post-hoc meaning rules)")):
         r = res[name]
         lines.append(f"| {label} | {f(r['auc'])} | {f(r['detection_rate'], True)} | "
                      f"{f(r['false_positive_rate'], True)} | {f(r['median_lead_years'])} |")
     lines += ["", "Small-sample warning: with so few firms these figures are illustrative, not statistically "
-              "reliable. Weights were fixed before seeing results; nothing was tuned on this sample."]
+              "reliable. v1 weights were fixed before seeing results. v2 applies keyword rules written after "
+              "looking at v1's false positives on this same sample, so treat it as illustrative, not as a test."]
     return "\n".join(lines) + "\n"
 
 
