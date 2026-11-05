@@ -206,9 +206,14 @@ def main() -> None:
     SIGNAL_DIR.mkdir(parents=True, exist_ok=True)
     LOG.parent.mkdir(parents=True, exist_ok=True)
     log = []
+    t0 = time.time()
+    budget = float(os.environ.get("EXTRACT_BUDGET_MIN", "40")) * 60
     for _, r in reports.fillna("").iterrows():
         if not r["url"]:
             continue
+        if time.time() - t0 > budget:
+            print("time budget reached; the next run resumes from the cache")
+            break
         out = SIGNAL_DIR / f"{slug(r['company'])}_{int(r['fy'])}.json"
         stamp = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
         if out.exists():

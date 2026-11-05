@@ -15,7 +15,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,23 +27,29 @@ jobs:
         run: python -m pytest -q
       - name: Collect financial statements
         run: python -m src.collect
-      - name: Discover annual-report links (Gemini + Google Search)
+      - name: Discover annual-report links (web search, then Gemini)
         continue-on-error: true
+        timeout-minutes: 40
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python -m src.discover
       - name: Extract annual reports (Gemini)
         continue-on-error: true   # extraction problems must never block scoring
+        timeout-minutes: 50
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python -m src.extract
       - name: Score companies
+        if: always()
         run: python -m src.run
       - name: Back-test and watchlist
+        if: always()
         run: python -m src.backtest
       - name: Build dashboard
+        if: always()
         run: python -m src.dashboard
       - name: Commit refreshed data
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

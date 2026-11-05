@@ -43,3 +43,22 @@ def test_parse_ddg_keeps_only_report_like_links():
             '<a class="result__a" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fexample.com%2Fabout&rut=def">y</a>'
             '<a href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fexample.com%2Fdocs%2FAR-2019.pdf&rut=ghi">z</a>')
     assert parse_ddg(page) == ["https://example.com/docs/AR-2019.pdf"]
+
+
+def test_find_candidates_survives_dead_gemini_and_raises_only_when_all_routes_fail(monkeypatch):
+    import src.discover as d
+
+    monkeypatch.setattr(d, "_gemini_down", False)
+    monkeypatch.setattr(d, "search_web", lambda c, fy: ["http://x/ar.pdf"])
+
+    def boom(c, fy):
+        raise RuntimeError("429 RESOURCE_EXHAUSTED")
+
+    monkeypatch.setattr(d, "search_gemini", boom)
+    assert d.find_candidates("A B", 2019) == ["http://x/ar.pdf"]  # web search carries on
+    assert d._gemini_down is True
+    monkeypatch.setattr(d, "search_web", boom)
+    import pytest
+
+    with pytest.raises(RuntimeError):
+        d.find_candidates("A B", 2019)

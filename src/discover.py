@@ -23,6 +23,7 @@ from .universe import load_universe
 
 DISCOVERED = Path("data/report_urls.csv")
 MAX_ATTEMPTS = 3
+BUDGET_S = float(os.environ.get("DISCOVER_BUDGET_MIN", "30")) * 60
 
 
 def target_years(event_year: int, n: int = 3) -> list[int]:
@@ -55,16 +56,25 @@ def search_web(company: str, fy: int) -> list[str]:
     return parse_ddg(r.text)
 
 
+_gemini_down = False  # once Gemini search hits quota, skip it for the rest of the run
+
+
 def find_candidates(company: str, fy: int) -> list[str]:
-    found, errors = [], []
+    global _gemini_down
+    found, errors, tried = [], [], 0
     for search in (search_web, search_gemini):
+        if search is search_gemini and _gemini_down:
+            continue
+        tried += 1
         try:
             found += search(company, fy)
         except Exception as exc:
             errors.append(exc)
+            if search is search_gemini:
+                _gemini_down = True
     found = list(dict.fromkeys(found))
-    if not found and len(errors) == 2:
-        raise errors[-1]  # both routes broke: report it as an infrastructure error
+    if not found and errors and len(errors) == tried:
+        raise errors[-1]  # every route we tried failed: an infrastructure problem, not the report's fault
     return found[:6]
 
 
@@ -108,11 +118,21 @@ def main() -> None:
     done = {(r.company, int(r.fy)) for r in manual.itertuples() if r.url}
     rows = {(r.company, int(r.fy)): r._asdict() for r in known.itertuples(index=False)}
     outage = False
+    t0 = time.time()
+
+    def save() -> None:
+        DISCOVERED.parent.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(list(rows.values()), columns=cols).to_csv(DISCOVERED, index=False)
+
     for _, u in universe.iterrows():
         event = u["event_resolved"]
         if pd.isna(event) or outage:
             continue
         for fy in target_years(int(event)):
+            if time.time() - t0 > BUDGET_S:
+                print("time budget reached; the next run resumes from the cache")
+                outage = True
+                break
             key = (u["company"], fy)
             prev = rows.get(key)
             if key in done or (prev and (prev["status"] == "ok" or prev["attempts"] >= MAX_ATTEMPTS)):
@@ -127,12 +147,12 @@ def main() -> None:
                          "attempts": (prev["attempts"] if prev else 0) + (0 if infra_error else 1),
                          "checked_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}
             print(rows[key])
+            save()  # persist after every report so a timeout loses nothing
             if infra_error:
                 outage = True  # stop the run instead of burning quota on a systemic failure
                 break
             time.sleep(3)
-    DISCOVERED.parent.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame(list(rows.values()), columns=cols).to_csv(DISCOVERED, index=False)
+    save()
 
 
 if __name__ == "__main__":
