@@ -10,7 +10,7 @@
   "median_lead_years": 1.0
  },
  "numbers_plus_text": {
-  "auc": 0.5694444444444444,
+  "auc": 0.5324074074074074,
   "detection_rate": 0.5,
   "false_positive_rate": 0.5,
   "median_lead_years": 1.0

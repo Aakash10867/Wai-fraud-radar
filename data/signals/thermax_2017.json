@@ -1,0 +1,92 @@
+{
+ "company": "Thermax",
+ "report_fy": 2017,
+ "url": "https://files.tijorifinance.com/insight/india/301/Annual%20Report/AR-17.pdf",
+ "unit": "crore",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": true,
+   "quote": "M/s. B.K. Khare & Co., Chartered Accountants retire as statutory auditors at the ensuing AGM and are not eligible for re-appointment since their term expires as per Section 139 (2) read with the Companies (Audit and Auditors) Rules, 2014."
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": true,
+   "quote": "It recasts previous year\u2019s (FY 2015-16) accounts as well as the opening balance sheet as at 1st April, 2015."
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 0,
+ "financials": [],
+ "rejected": [
+  "current: failed balance check or unit missing",
+  "prior: failed balance check or unit missing"
+ ],
+ "raw_rejected": {
+  "current": {
+   "revenue": 3677,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": 2860,
+   "ppe": 684,
+   "total_assets": null,
+   "depreciation": 65,
+   "sga": null,
+   "current_liabilities": 2117,
+   "long_term_debt": 0,
+   "net_income": 145,
+   "cfo": 345,
+   "retained_earnings": 2386,
+   "ebit": 279,
+   "equity": 2410,
+   "total_liabilities": null
+  },
+  "prior": {
+   "revenue": 4274,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": 3134,
+   "ppe": 643,
+   "total_assets": null,
+   "depreciation": 61,
+   "sga": null,
+   "current_liabilities": 2283,
+   "long_term_debt": 1,
+   "net_income": 297,
+   "cfo": 288,
+   "retained_earnings": 2318,
+   "ebit": 428,
+   "equity": 2342,
+   "total_liabilities": null
+  }
+ }
+}

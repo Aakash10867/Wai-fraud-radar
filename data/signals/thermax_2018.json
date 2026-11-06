@@ -1,0 +1,92 @@
+{
+ "company": "Thermax",
+ "report_fy": 2018,
+ "url": "https://files.tijorifinance.com/insight/india/301/Annual%20Report/AR-18.pdf",
+ "unit": "crore",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 0,
+ "financials": [],
+ "rejected": [
+  "current: failed balance check or unit missing",
+  "prior: failed balance check or unit missing"
+ ],
+ "raw_rejected": {
+  "current": {
+   "revenue": 3868,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": 3571,
+   "ppe": 671,
+   "total_assets": null,
+   "depreciation": 64,
+   "sga": null,
+   "current_liabilities": 2739,
+   "long_term_debt": 0,
+   "net_income": 238,
+   "cfo": null,
+   "retained_earnings": 2542,
+   "ebit": 386,
+   "equity": 2566,
+   "total_liabilities": null
+  },
+  "prior": {
+   "revenue": 3764,
+   "cogs": null,
+   "receivables": null,
+   "current_assets": 2860,
+   "ppe": 684,
+   "total_assets": null,
+   "depreciation": 65,
+   "sga": null,
+   "current_liabilities": 2117,
+   "long_term_debt": 0,
+   "net_income": 145,
+   "cfo": null,
+   "retained_earnings": 2386,
+   "ebit": 279,
+   "equity": 2410,
+   "total_liabilities": null
+  }
+ }
+}

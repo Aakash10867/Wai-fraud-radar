@@ -1,13 +1,13 @@
 company,fy,status,checked_utc
-Reliance Infrastructure,2020,cached,2026-11-05T13:42:28+00:00
-CG Power and Industrial Solutions,2018,cached,2026-11-05T13:42:28+00:00
-CG Power and Industrial Solutions,2016,ok,2026-11-05T13:42:28+00:00
-Siemens,2018,cached,2026-11-05T13:46:42+00:00
-Siemens,2017,cached,2026-11-05T13:46:42+00:00
-Siemens,2016,ok,2026-11-05T13:46:42+00:00
-ABB India,2018,cached,2026-11-05T13:51:14+00:00
-ABB India,2017,cached,2026-11-05T13:51:14+00:00
-ABB India,2016,cached,2026-11-05T13:51:14+00:00
-Thermax,2018,"error: ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/get-started).', 'status': 'NOT_FOUND'}}",2026-11-05T13:51:14+00:00
-Thermax,2017,"error: ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemini-api/docs/get-started).', 'status': 'NOT_FOUND'}}",2026-11-05T13:51:44+00:00
-Thermax,2016,cached,2026-11-05T13:52:14+00:00
+Reliance Infrastructure,2020,cached,2026-11-06T16:53:59+00:00
+CG Power and Industrial Solutions,2018,cached,2026-11-06T16:53:59+00:00
+CG Power and Industrial Solutions,2016,cached,2026-11-06T16:53:59+00:00
+Siemens,2018,cached,2026-11-06T16:53:59+00:00
+Siemens,2017,cached,2026-11-06T16:53:59+00:00
+Siemens,2016,cached,2026-11-06T16:53:59+00:00
+ABB India,2018,cached,2026-11-06T16:53:59+00:00
+ABB India,2017,cached,2026-11-06T16:53:59+00:00
+ABB India,2016,cached,2026-11-06T16:53:59+00:00
+Thermax,2018,ok,2026-11-06T16:53:59+00:00
+Thermax,2017,ok,2026-11-06T17:09:35+00:00
+Thermax,2016,cached,2026-11-06T17:11:18+00:00
