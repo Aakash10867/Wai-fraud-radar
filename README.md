@@ -1,22 +1,31 @@
-# Fraud Radar (WAI project)
+# Fraud Radar (Working with AI project)
 
-AI early-warning system for accounting manipulation in Indian listed firms.
-Combines the course's forensic scores (Beneish M-score, Altman Z'', Benford's Law,
-accruals) with LLM-extracted text signals from annual reports.
+An automated early-warning screen for accounting manipulation in Indian listed firms. It combines the course's forensic scores (Beneish M-score, Altman Z'', accruals to assets, Benford's Law) with warnings that a language model (Gemini) extracts from annual reports. The model only extracts; a fixed points rule decides, and every text flag carries a quote verified word for word against the PDF.
 
-## Runs by itself
-A GitHub Actions workflow (`.github/workflows/refresh.yml`) runs every Monday and can
-also be started from the Actions tab. It runs the tests, collects statements from
-Yahoo Finance, scores every company in `config/universe.csv`, and commits the results
-to `data/` and `results/`. Failures are logged in `data/collection_log.csv`; an old data
-file is never overwritten by a failed download.
+## How it runs
+A GitHub Actions workflow (`.github/workflows/refresh.yml`) runs every day and can also be started from the Actions tab. Steps: tests, collect statements (Yahoo Finance), discover annual-report links, extract with Gemini, score, back-test, build the dashboard, commit results. Finished work is cached, so each run resumes where the last stopped. Secret needed: `GEMINI_API_KEY`.
 
-One-time setup: create a GitHub repo, push this folder, and make sure Actions is
-enabled. No secrets are needed yet.
+## Layout
+- `config/universe.csv` flagged firms and matched controls
+- `src/` collect, discover, extract, scores, run, backtest, guards, dashboard, llm
+- `tests/` 45 automated tests
+- `data/` statements, extracted signals, link and extraction logs
+- `results/` scores.csv, backtest.md and .json, watchlist.csv
+- `docs/index.html` dashboard (static page, can be served with GitHub Pages)
+- `logs/prompt_log.jsonl` prompt logbook: every Gemini call with model, purpose, prompt and response
 
-## Status (5 Nov 2026)
+## Results (see `results/backtest.md`)
+Evaluation window is the three fiscal years before each flagged firm's event year; 2 flagged firms, 6 matched controls, 24 firm-years; flag at 3 risk points.
 
-- Pipeline runs daily on GitHub Actions with no manual steps (collect, discover, extract, score, back-test, dashboard, commit).
-- Back-test: 2 flagged firms, 6 matched controls, 24 firm-years. Numbers only AUC 0.63; text v1 0.57; text v2 (post-hoc) 0.63. Gensol detected one year ahead; CG Power not detected. Illustrative only.
-- Known gaps: Thermax FY2017-18 not extracted; Reliance Infrastructure and Ricoh India excluded from the back-test (event year unverified / no ticker).
-- Deliverables: report (docs), deck (8-10 slides), prompt log in logs/prompt_log.jsonl, dashboard in docs/index.html.
+| Method | AUC | Detected | False alarms |
+|---|---|---|---|
+| Numbers only | 0.63 | 50% | 50% |
+| Numbers + text v1 (rules fixed in advance) | 0.53 | 50% | 50% |
+| Numbers + text v2 (keyword rules written after seeing v1) | 0.63 | 50% | 50% |
+
+Gensol Engineering is flagged one year before the regulator acted; CG Power is not. The text signals added false alarms (routine auditor rotation, Ind AS restatements), which is why v2 exists and why it is labelled post-hoc. With this few firms the figures are illustrative, not statistically reliable.
+
+## Known limits
+- Thermax FY2017-18 statements were rejected by the balance-sheet check, so Thermax has text signals but no numeric scores for those years.
+- Reliance Infrastructure (event year unverified) and Ricoh India (no ticker) are in the universe but excluded from the back-test.
+- Benford's MAD is reported but not scored because it uses all of a firm's years.
