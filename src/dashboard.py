@@ -39,8 +39,8 @@ def render(watch: pd.DataFrame, bt: dict) -> str:
     cards = ""
     for key, label in (("numbers_only", "Numbers only"), ("numbers_plus_text", "Numbers + text")):
         r = bt.get(key, {})
-        cards += (f'<div class="card"><span>{label}</span><b>AUC {num(r.get("auc"))}</b>'
-                  f'<span>detect {pct(r.get("detection_rate"))} · false alarms {pct(r.get("false_positive_rate"))}</span></div>')
+        cards += (f'<div class="card"><span>{label}</span><b>Detected {pct(r.get("detection_rate"))}</b>'
+                  f'<span>false alarms {pct(r.get("false_positive_rate"))}</span></div>')
     rows = ""
     for r in watch.itertuples():
         cls = "hi" if r.total_pts >= 3 else "mid" if r.total_pts >= 2 else "ok"

@@ -43,7 +43,7 @@ def numeric_points(r) -> int:
     if pd.notna(r.get("M")) and r["M"] > -1.78:
         pts += 2  # Beneish 8-variable cut-off
     if pd.notna(r.get("Z")) and r["Z"] < 1.1:
-        pts += 1  # Altman Z'' distress zone
+        pts += 1  # Altman Z-score distress zone
     if pd.notna(r.get("TATA")) and r["TATA"] > 0.031:
         pts += 1  # accruals above the manipulator mean in Beneish (1999)
     return pts
@@ -133,12 +133,12 @@ def summary_md(res: dict) -> str:
         "# Back-test summary", "",
         f"Sample actually evaluated: {res['flagged_firms']} flagged firms, {res['control_firms']} "
         f"control firms, {res['firm_years']} firm-years (window E-3..E-1). Flag threshold: {res['threshold']} points.",
-        "", "| Method | AUC | Detection rate | False-positive rate | Median lead (years) |", "|---|---|---|---|---|",
+        "", "| Method | Detection rate | False-alarm rate | Lead time (years) |", "|---|---|---|---|",
     ]
     for name, label in (("numbers_only", "Numbers only"), ("numbers_plus_text", "Numbers + text (v1, fixed in advance)"),
                         ("numbers_plus_text_v2", "Numbers + text (v2, post-hoc meaning rules)")):
         r = res[name]
-        lines.append(f"| {label} | {f(r['auc'])} | {f(r['detection_rate'], True)} | "
+        lines.append(f"| {label} | {f(r['detection_rate'], True)} | "
                      f"{f(r['false_positive_rate'], True)} | {f(r['median_lead_years'])} |")
     lines += ["", "Small-sample warning: with so few firms these figures are illustrative, not statistically "
               "reliable. v1 weights were fixed before seeing results. v2 applies keyword rules written after "

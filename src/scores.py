@@ -1,4 +1,4 @@
-"""Forensic scores used in the course: Beneish M-score, Altman Z'' (emerging markets),
+"""Forensic scores used in the course: Beneish M-score, Altman Z-score,
 accrual ratio and Benford's Law first-digit test.
 
 Input convention: a DataFrame indexed by fiscal year (ascending) with the columns
@@ -52,7 +52,7 @@ def beneish(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def altman_z(df: pd.DataFrame) -> pd.Series:
-    """Altman Z'' score, emerging-market form (includes the +3.25 constant)."""
+    """Altman Z-score, version for non-manufacturers (includes the +3.25 constant)."""
     ta = df["total_assets"]
     wc = df["current_assets"] - df["current_liabilities"]
     return (
