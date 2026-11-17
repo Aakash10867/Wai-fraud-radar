@@ -1,17 +1,17 @@
 {
  "ABB India": {
-  "key": "2dd5bc85f162",
+  "key": "0da1dc7c1c71",
   "fy": 2025,
   "ai_written": false,
-  "headline": "ABB India: Clear (score 88.2)",
-  "summary": "Integrity score 88.2 for FY2025. The weakest areas are earnings quality (risk 27) and cash conversion (risk 17). Score covers 85% of the weighted evidence.",
+  "headline": "ABB India: Clear (score 90.0)",
+  "summary": "Integrity score 90.0 for FY2025. The weakest areas are earnings quality (risk 27) and cash conversion (risk 17). Score covers 100% of the weighted evidence.",
   "check_first": [
    "Reconcile reported profit to operating cash flow; list the non-cash gains and working-capital build-up behind the accruals"
   ],
   "red_flags": []
  },
  "Borosil Renewables": {
-  "key": "dd6dc70c7bae",
+  "key": "6cc7a0ea45fd",
   "fy": 2026,
   "ai_written": false,
   "headline": "Borosil Renewables: Clear (score 99.1)",
@@ -22,23 +22,30 @@
   "red_flags": []
  },
  "CG Power and Industrial Solutions": {
-  "key": "2d64d00bfca1",
+  "key": "a518054a2bec",
   "fy": 2026,
   "ai_written": false,
-  "headline": "CG Power and Industrial Solutions: Monitor (score 74.0)",
-  "summary": "Integrity score 74.0 for FY2026. The weakest areas are earnings quality (risk 56) and cash conversion (risk 40). Score covers 85% of the weighted evidence.",
+  "headline": "CG Power and Industrial Solutions: Monitor (score 67.7)",
+  "summary": "Integrity score 67.7 for FY2026. The weakest areas are audit and governance red flags (ai) (risk 68) and earnings quality (risk 56). Score covers 100% of the weighted evidence.",
   "check_first": [
+   "Read the auditor's report and notes on the flagged items; confirm what management did about each",
    "Review the Beneish indices (receivables, gross margin, asset quality, sales growth) and identify which one drives the score",
    "Trace why profit is not turning into cash: receivable ageing, unbilled revenue, inventory build-up, advances paid"
   ],
-  "red_flags": []
+  "red_flags": [
+   {
+    "type": "loan_or_fund_diversion_alleged",
+    "quote": "The investigations by Central Bureau of Investigation (CBI), Serious Fraud Investigation Office (SFIO) and Enforcement Directorate (ED) into the affairs of your Company and its Subsidiaries pertaining to the past period and against the erstwhile Promoters/Directors of the Company relating to transactions that took place when the Company was under the control of the previous Management / Promoters, details of which have already been reported to the Stock Exchanges/ in the previous Annual Reports of the Company, are in progress.",
+    "report_fy": 2026
+   }
+  ]
  },
  "Gensol Engineering": {
-  "key": "4642118c7ba4",
+  "key": "d76dec511331",
   "fy": 2024,
   "ai_written": false,
-  "headline": "Gensol Engineering: Open forensic review (score 39.9)",
-  "summary": "Integrity score 39.9 for FY2024. The weakest areas are cash conversion (risk 100) and earnings quality (risk 84). Score covers 85% of the weighted evidence.",
+  "headline": "Gensol Engineering: Open forensic review (score 38.7)",
+  "summary": "Integrity score 38.7 for FY2024. The weakest areas are cash conversion (risk 100) and earnings quality (risk 84). Score covers 85% of the weighted evidence.",
   "check_first": [
    "Trace why profit is not turning into cash: receivable ageing, unbilled revenue, inventory build-up, advances paid",
    "Review the Beneish indices (receivables, gross margin, asset quality, sales growth) and identify which one drives the score",
@@ -47,22 +54,22 @@
   "red_flags": []
  },
  "KPI Green Energy": {
-  "key": "d1f4f8257b6e",
+  "key": "c5bbf57f2047",
   "fy": 2026,
   "ai_written": false,
-  "headline": "KPI Green Energy: Clear (score 96.7)",
-  "summary": "Integrity score 96.7 for FY2026. The weakest areas are leverage and coverage (risk 15) and operating performance (risk 6). Score covers 85% of the weighted evidence.",
+  "headline": "KPI Green Energy: Clear (score 97.4)",
+  "summary": "Integrity score 97.4 for FY2026. The weakest areas are leverage and coverage (risk 10) and operating performance (risk 6). Score covers 85% of the weighted evidence.",
   "check_first": [
    "Nothing above the concern level; keep to the routine annual review"
   ],
   "red_flags": []
  },
  "Reliance Infrastructure": {
-  "key": "3f5de348705b",
+  "key": "23d376ca71e1",
   "fy": 2026,
   "ai_written": false,
-  "headline": "Reliance Infrastructure: Monitor (score 73.6)",
-  "summary": "Integrity score 73.6 for FY2026. The weakest areas are leverage and coverage (risk 67) and operating performance (risk 55). Score covers 85% of the weighted evidence.",
+  "headline": "Reliance Infrastructure: Clear (score 75.6)",
+  "summary": "Integrity score 75.6 for FY2026. The weakest areas are leverage and coverage (risk 55) and operating performance (risk 55). Score covers 85% of the weighted evidence.",
   "check_first": [
    "Check short-term liquidity: maturities due within a year against cash and receivables that are actually collectable",
    "Compare revenue growth with receivables and cash collection; large swings need a customer-level check",
@@ -97,7 +104,7 @@
   ]
  },
  "Siemens": {
-  "key": "e8eecd49670d",
+  "key": "755ef1bfb6cf",
   "fy": 2025,
   "ai_written": false,
   "headline": "Siemens: Targeted review (score 56.9)",
@@ -109,7 +116,7 @@
   "red_flags": []
  },
  "Suzlon Energy": {
-  "key": "da983586047e",
+  "key": "162014f06ee9",
   "fy": 2026,
   "ai_written": false,
   "headline": "Suzlon Energy: Monitor (score 64.7)",
@@ -121,11 +128,11 @@
   "red_flags": []
  },
  "Thermax": {
-  "key": "76eb65c8a1bb",
+  "key": "2d9327116acd",
   "fy": 2026,
   "ai_written": false,
-  "headline": "Thermax: Clear (score 83.1)",
-  "summary": "Integrity score 83.1 for FY2026. The weakest areas are cash conversion (risk 34) and leverage and coverage (risk 25). Score covers 85% of the weighted evidence.",
+  "headline": "Thermax: Clear (score 84.6)",
+  "summary": "Integrity score 84.6 for FY2026. The weakest areas are cash conversion (risk 34) and leverage and coverage (risk 17). Score covers 85% of the weighted evidence.",
   "check_first": [
    "Check operating cash flow against revenue over five years and read the cash-flow statement notes"
   ],

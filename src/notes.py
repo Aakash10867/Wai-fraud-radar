@@ -13,6 +13,7 @@ import json
 import math
 import os
 import re
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -151,6 +152,7 @@ def main() -> None:
     cache = json.loads(OUT.read_text()) if OUT.exists() else {}
     df = pd.read_csv(INTEGRITY)
     notes = {}
+    start, misses = time.time(), 0   # stop asking Gemini after 3 misses in a row or 8 minutes
     for company, g in df.groupby("company"):
         row = latest_row(g)
         flags = red_flags(company)
@@ -160,11 +162,14 @@ def main() -> None:
         if old and old.get("key") == key:
             notes[company] = old
             continue
-        ai = narrative(f)
+        ai = narrative(f) if misses < 3 and time.time() - start < 480 else None
+        misses = 0 if ai else misses + 1
         base = ai or fallback(f, [])
         notes[company] = {"key": key, "fy": f["fiscal_year"], "ai_written": ai is not None, **base,
                           "check_first": rule_checks(row, flags), "red_flags": flags}
         print(company, "AI note" if ai else "rule note")
+        OUT.parent.mkdir(parents=True, exist_ok=True)
+        OUT.write_text(json.dumps({**cache, **notes}, indent=1, ensure_ascii=False))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(notes, indent=1, ensure_ascii=False))
 
