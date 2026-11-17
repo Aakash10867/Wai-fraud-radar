@@ -1,0 +1,98 @@
+{
+ "company": "Siemens",
+ "report_fy": 2025,
+ "url": "https://assets.ctfassets.net/17si5cpawjzf/6yxgn32v6Tqrr9iFFh2Rxa/c83fec73e7a583fbbfd0e4ea329208ca/Siemens-annual-report-2025.pdf",
+ "unit": null,
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": true,
+   "quote": "In connection with the preparation of the Financial Statements for 2024/25, corrections to the comparative figures have been made."
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 0,
+ "financials": [],
+ "rejected": [
+  "current: failed balance check or unit missing",
+  "prior: failed balance check or unit missing"
+ ],
+ "raw_rejected": {
+  "current": {
+   "revenue": 2186935,
+   "cogs": null,
+   "receivables": 433106,
+   "current_assets": 733549,
+   "ppe": 17530,
+   "total_assets": 767932,
+   "depreciation": null,
+   "sga": null,
+   "current_liabilities": 437140,
+   "long_term_debt": 0,
+   "net_income": 93535,
+   "cfo": null,
+   "retained_earnings": 0,
+   "ebit": null,
+   "equity": 279674,
+   "total_liabilities": 488258,
+   "interest_expense": null,
+   "total_debt": 0,
+   "cash": 59
+  },
+  "prior": {
+   "revenue": 1706680,
+   "cogs": null,
+   "receivables": 359801,
+   "current_assets": 695377,
+   "ppe": 4678,
+   "total_assets": 710328,
+   "depreciation": null,
+   "sga": null,
+   "current_liabilities": 304195,
+   "long_term_debt": 0,
+   "net_income": 197694,
+   "cfo": null,
+   "retained_earnings": 0,
+   "ebit": null,
+   "equity": 348694,
+   "total_liabilities": 361634,
+   "interest_expense": null,
+   "total_debt": 0,
+   "cash": 11
+  }
+ }
+}

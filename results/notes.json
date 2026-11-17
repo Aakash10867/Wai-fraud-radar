@@ -104,11 +104,11 @@
   ]
  },
  "Siemens": {
-  "key": "755ef1bfb6cf",
+  "key": "9e4fe6eff659",
   "fy": 2025,
   "ai_written": false,
-  "headline": "Siemens: Targeted review (score 56.9)",
-  "summary": "Integrity score 56.9 for FY2025. The weakest areas are cash conversion (risk 87) and earnings quality (risk 52). Score covers 70% of the weighted evidence.",
+  "headline": "Siemens: Monitor (score 64.5)",
+  "summary": "Integrity score 64.5 for FY2025. The weakest areas are cash conversion (risk 87) and earnings quality (risk 52). Score covers 85% of the weighted evidence.",
   "check_first": [
    "Trace why profit is not turning into cash: receivable ageing, unbilled revenue, inventory build-up, advances paid",
    "Reconcile reported profit to operating cash flow; list the non-cash gains and working-capital build-up behind the accruals"
