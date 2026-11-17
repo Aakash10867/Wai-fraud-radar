@@ -45,9 +45,26 @@ jobs:
       - name: Back-test and watchlist
         if: always()
         run: python -m src.backtest
+      - name: AI analyst notes
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 15
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python -m src.notes
       - name: Build dashboard
         if: always()
         run: python -m src.dashboard
+      - name: Build Excel workbook (formulas recalculated so values are stored)
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          python -m src.workbook
+          sudo apt-get install -y --no-install-recommends libreoffice-calc >/dev/null
+          mkdir -p /tmp/recalc
+          soffice --headless --convert-to xlsx --outdir /tmp/recalc results/fraud_radar_workbook.xlsx
+          cp /tmp/recalc/fraud_radar_workbook.xlsx results/fraud_radar_workbook.xlsx
       - name: Commit refreshed data
         if: always()
         run: |

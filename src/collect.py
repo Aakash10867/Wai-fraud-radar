@@ -38,6 +38,9 @@ FIELDS = {
     "ebit": ["EBIT", "Operating Income"],
     "equity": ["Stockholders Equity", "Common Stock Equity", "Total Equity Gross Minority Interest"],
     "total_liabilities": ["Total Liabilities Net Minority Interest"],
+    "interest_expense": ["Interest Expense", "Interest Expense Non Operating"],
+    "total_debt": ["Total Debt"],
+    "cash": ["Cash And Cash Equivalents", "Cash Cash Equivalents And Short Term Investments"],
 }
 
 

@@ -67,11 +67,9 @@ def test_load_text_reads_signal_files(tmp_path):
     assert out.iloc[0]["text_pts"] == 2 and "going concern" in out.iloc[0]["quote"]
 
 
-def test_dashboard_escapes_html():
-    w = pd.DataFrame([{"company": "<script>x</script>", "group": "flagged", "fy": 2019, "num_pts": 2, "text_pts": 1,
-                       "total_pts": 3, "M": -1.0, "Z": 1.0, "benford_mad": 0.01, "flags": "a;b", "quote": "<b>q</b>"}])
-    out = render(w, {"flagged_firms": 1, "control_firms": 1, "firm_years": 3})
-    assert "<script>x" not in out and "&lt;script&gt;" in out
+def test_dashboard_blob_cannot_break_out_of_script_tag():
+    out = render({"companies": [{"name": "</script><b>x</b>", "note": {}}], "generated": "now"})
+    assert "</script><b>x" not in out and "<\\/script>" in out
 
 
 def test_controls_inherit_event_year(tmp_path):

@@ -1,0 +1,134 @@
+{
+ "ABB India": {
+  "key": "2dd5bc85f162",
+  "fy": 2025,
+  "ai_written": false,
+  "headline": "ABB India: Clear (score 88.2)",
+  "summary": "Integrity score 88.2 for FY2025. The weakest areas are earnings quality (risk 27) and cash conversion (risk 17). Score covers 85% of the weighted evidence.",
+  "check_first": [
+   "Reconcile reported profit to operating cash flow; list the non-cash gains and working-capital build-up behind the accruals"
+  ],
+  "red_flags": []
+ },
+ "Borosil Renewables": {
+  "key": "dd6dc70c7bae",
+  "fy": 2026,
+  "ai_written": false,
+  "headline": "Borosil Renewables: Clear (score 99.1)",
+  "summary": "Integrity score 99.1 for FY2026. The weakest areas are operating performance (risk 7) and earnings quality (risk 0). Score covers 85% of the weighted evidence.",
+  "check_first": [
+   "Nothing above the concern level; keep to the routine annual review"
+  ],
+  "red_flags": []
+ },
+ "CG Power and Industrial Solutions": {
+  "key": "2d64d00bfca1",
+  "fy": 2026,
+  "ai_written": false,
+  "headline": "CG Power and Industrial Solutions: Monitor (score 74.0)",
+  "summary": "Integrity score 74.0 for FY2026. The weakest areas are earnings quality (risk 56) and cash conversion (risk 40). Score covers 85% of the weighted evidence.",
+  "check_first": [
+   "Review the Beneish indices (receivables, gross margin, asset quality, sales growth) and identify which one drives the score",
+   "Trace why profit is not turning into cash: receivable ageing, unbilled revenue, inventory build-up, advances paid"
+  ],
+  "red_flags": []
+ },
+ "Gensol Engineering": {
+  "key": "4642118c7ba4",
+  "fy": 2024,
+  "ai_written": false,
+  "headline": "Gensol Engineering: Open forensic review (score 39.9)",
+  "summary": "Integrity score 39.9 for FY2024. The weakest areas are cash conversion (risk 100) and earnings quality (risk 84). Score covers 85% of the weighted evidence.",
+  "check_first": [
+   "Trace why profit is not turning into cash: receivable ageing, unbilled revenue, inventory build-up, advances paid",
+   "Review the Beneish indices (receivables, gross margin, asset quality, sales growth) and identify which one drives the score",
+   "Map all borrowings, guarantees and off-balance-sheet obligations against equity; confirm lender-wise exposure"
+  ],
+  "red_flags": []
+ },
+ "KPI Green Energy": {
+  "key": "d1f4f8257b6e",
+  "fy": 2026,
+  "ai_written": false,
+  "headline": "KPI Green Energy: Clear (score 96.7)",
+  "summary": "Integrity score 96.7 for FY2026. The weakest areas are leverage and coverage (risk 15) and operating performance (risk 6). Score covers 85% of the weighted evidence.",
+  "check_first": [
+   "Nothing above the concern level; keep to the routine annual review"
+  ],
+  "red_flags": []
+ },
+ "Reliance Infrastructure": {
+  "key": "3f5de348705b",
+  "fy": 2026,
+  "ai_written": false,
+  "headline": "Reliance Infrastructure: Monitor (score 73.6)",
+  "summary": "Integrity score 73.6 for FY2026. The weakest areas are leverage and coverage (risk 67) and operating performance (risk 55). Score covers 85% of the weighted evidence.",
+  "check_first": [
+   "Check short-term liquidity: maturities due within a year against cash and receivables that are actually collectable",
+   "Compare revenue growth with receivables and cash collection; large swings need a customer-level check",
+   "Assess distress risk: working capital, retained earnings and profitability trend behind the low Z-score"
+  ],
+  "red_flags": [
+   {
+    "type": "auditor_qualified_opinion",
+    "quote": "We do not express an opinion on the accompanying standalone financial statements of the Company. Because of the significance of the matter described in the Basis for Disclaimer of Opinion section of our report, we have not been able to obtain sufficient appropriate audit evidence to provide a basis for an audit opinion on these standalone financial statements.",
+    "report_fy": 2020
+   },
+   {
+    "type": "auditor_emphasis_of_matter",
+    "quote": "We draw attention to Note 38 to the standalone financial statements regarding the Scheme of Amalgamation (‘the Scheme’) between Reliance Infraprojects Limited (wholly owned subsidiary of the Company) and the Company sanctioned by the Hon’ble High Court of Judicature at Bombay vide its order dated March 30, 2011, wherein the Company, as determined by the Board of Directors, is permitted to adjust foreign exchange/derivative/hedging losses/gains debited/credited to the Statement of Profit and Loss by a corresponding withdrawal from or credit to General Reserve which overrides the relevant provisions of Ind AS – 1 ‘Presentation of financial statements’.",
+    "report_fy": 2020
+   },
+   {
+    "type": "going_concern_doubt",
+    "quote": "We draw attention to Note 52 to the standalone financial statements, wherein the Company has outstanding obligations to lenders and the Company is also a guarantor for its subsidiaries and associates whose loans have also fallen due which indicate that material uncertainty exists that may cast significant doubt on the Company’s ability to continue as a going concern.",
+    "report_fy": 2020
+   },
+   {
+    "type": "delayed_or_restated_results",
+    "quote": "fine in terms of circular No. SEBI/HO/CFD/CMD/CIR/P/2018/77 dated May 3, 2018 paid by the Company for delay of 14 days in approval of financial results for the quarter and financial year ended March 31, 2019.",
+    "report_fy": 2020
+   },
+   {
+    "type": "internal_control_weakness",
+    "quote": "Because of the above reasons, we are unable to obtain sufficient appropriate audit evidence to provide a basis for our opinion whether the Company had adequate internal financial controls with reference to standalone financial statements and whether such internal financial controls were operating effectively as at March 31, 2020",
+    "report_fy": 2020
+   }
+  ]
+ },
+ "Siemens": {
+  "key": "e8eecd49670d",
+  "fy": 2025,
+  "ai_written": false,
+  "headline": "Siemens: Targeted review (score 56.9)",
+  "summary": "Integrity score 56.9 for FY2025. The weakest areas are cash conversion (risk 87) and earnings quality (risk 52). Score covers 70% of the weighted evidence.",
+  "check_first": [
+   "Trace why profit is not turning into cash: receivable ageing, unbilled revenue, inventory build-up, advances paid",
+   "Reconcile reported profit to operating cash flow; list the non-cash gains and working-capital build-up behind the accruals"
+  ],
+  "red_flags": []
+ },
+ "Suzlon Energy": {
+  "key": "da983586047e",
+  "fy": 2026,
+  "ai_written": false,
+  "headline": "Suzlon Energy: Monitor (score 64.7)",
+  "summary": "Integrity score 64.7 for FY2026. The weakest areas are earnings quality (risk 85) and cash conversion (risk 43). Score covers 85% of the weighted evidence.",
+  "check_first": [
+   "Reconcile reported profit to operating cash flow; list the non-cash gains and working-capital build-up behind the accruals",
+   "Trace why profit is not turning into cash: receivable ageing, unbilled revenue, inventory build-up, advances paid"
+  ],
+  "red_flags": []
+ },
+ "Thermax": {
+  "key": "76eb65c8a1bb",
+  "fy": 2026,
+  "ai_written": false,
+  "headline": "Thermax: Clear (score 83.1)",
+  "summary": "Integrity score 83.1 for FY2026. The weakest areas are cash conversion (risk 34) and leverage and coverage (risk 25). Score covers 85% of the weighted evidence.",
+  "check_first": [
+   "Check operating cash flow against revenue over five years and read the cash-flow statement notes"
+  ],
+  "red_flags": []
+ }
+}

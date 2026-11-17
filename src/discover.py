@@ -26,6 +26,9 @@ MAX_ATTEMPTS = 3
 BUDGET_S = float(os.environ.get("DISCOVER_BUDGET_MIN", "30")) * 60
 
 
+LATEST_YEARS = [2026, 2025]  # newest annual reports, for the live watchlist
+
+
 def target_years(event_year: int, n: int = 3) -> list[int]:
     """The reports for the three fiscal years before the event: E-1, E-2, E-3."""
     return [event_year - i for i in range(1, n + 1)]
@@ -140,9 +143,12 @@ def main() -> None:
 
     for _, u in universe.iterrows():
         event = u["event_resolved"]
-        if pd.isna(event) or outage:
+        if outage:
             continue
-        for fy in target_years(int(event)):
+        years = target_years(int(event)) if pd.notna(event) else []
+        if str(u.get("report_id", "")).strip():  # live monitoring: also the latest reports
+            years += [y for y in LATEST_YEARS if y not in years]
+        for fy in years:
             if time.time() - t0 > BUDGET_S:
                 print("time budget reached; the next run resumes from the cache")
                 outage = True

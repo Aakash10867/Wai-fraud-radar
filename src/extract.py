@@ -65,6 +65,9 @@ FIELD_DEFS = {
     "ebit": "profit before tax plus finance costs",
     "equity": "total equity (including non-controlling interests)",
     "total_liabilities": "total non-current liabilities + total current liabilities (excludes equity)",
+    "interest_expense": "finance costs (interest expense) for the year",
+    "total_debt": "non-current borrowings + current borrowings (including current maturities), excluding lease liabilities if shown separately",
+    "cash": "cash and cash equivalents (balance sheet)",
 }
 
 STATEMENT_HINTS = (

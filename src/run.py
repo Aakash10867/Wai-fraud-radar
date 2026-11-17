@@ -11,12 +11,14 @@ from pathlib import Path
 import pandas as pd
 
 from .extract import slug
+from .integrity import score_company as integrity_company
 from .scores import altman_z, beneish, benford
 from .universe import load_universe
 
 YAHOO_DIR = Path("data/financials")
 REPORT_DIR = Path("data/reports_fin")
 OUT = Path("results/scores.csv")
+INTEGRITY = Path("results/integrity.csv")
 
 
 def load_financials(ticker: str, company: str) -> pd.DataFrame | None:
@@ -46,9 +48,21 @@ def score_company(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def _text_points() -> dict:
+    """{company: {fy: context-filtered red-flag points}} from the verified extractions."""
+    from .backtest import load_text
+
+    t = load_text()
+    out: dict = {}
+    for r in t.itertuples():
+        out.setdefault(r.company, {})[int(r.fy)] = int(r.text_pts_v2)
+    return out
+
+
 def main() -> None:
     universe = load_universe()
-    parts = []
+    parts, integ = [], []
+    text = _text_points()
     for _, r in universe.iterrows():
         df = load_financials(str(r["yahoo_ticker"]).strip(), r["company"])
         if df is None:
@@ -59,8 +73,14 @@ def main() -> None:
         event = r["event_resolved"]
         scored["years_before_event"] = event - scored["fy"] if pd.notna(event) else pd.NA
         parts.append(scored)
+        ic = integrity_company(df, text.get(r["company"], {}))
+        ic.insert(0, "company", r["company"])
+        ic.insert(1, "group", r["group"])
+        integ.append(ic)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     (pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()).to_csv(OUT, index=False)
+    INTEGRITY.parent.mkdir(parents=True, exist_ok=True)
+    (pd.concat(integ, ignore_index=True) if integ else pd.DataFrame()).to_csv(INTEGRITY, index=False)
     print(f"scored {len(parts)} companies -> {OUT}")
 
 
