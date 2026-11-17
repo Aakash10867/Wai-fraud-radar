@@ -1,0 +1,93 @@
+{
+ "company": "Siemens",
+ "report_fy": 2026,
+ "url": "https://files.tijorifinance.com/insight/india/353/Annual%20Report/AR-26.pdf",
+ "unit": "million",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": true,
+   "quote": "However, the Members approved entering into material related party transactions with Siemens Aktiengesellschaft, Germany & Siemens Energy Global GmbH & Co. KG, Germany and approved the continuation of directorship of Mr. Matthias Rebellius, (Special Director: Nominee of Siemens Aktiengesellschaft, Germany), by passing an ordinary resolutions during FY 2024-26."
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 1,
+ "financials": [],
+ "rejected": [
+  "current: failed balance check or unit missing",
+  "prior: failed balance check or unit missing"
+ ],
+ "raw_rejected": {
+  "current": {
+   "revenue": 248456,
+   "cogs": 158649,
+   "receivables": null,
+   "current_assets": null,
+   "ppe": null,
+   "total_assets": 213006,
+   "depreciation": 4151,
+   "sga": null,
+   "current_liabilities": 64508,
+   "long_term_debt": 0,
+   "net_income": 27541,
+   "cfo": null,
+   "retained_earnings": null,
+   "ebit": 30878,
+   "equity": null,
+   "total_liabilities": 74492,
+   "interest_expense": 338,
+   "total_debt": 0,
+   "cash": null
+  },
+  "prior": {
+   "revenue": 151457,
+   "cogs": 95091,
+   "receivables": null,
+   "current_assets": null,
+   "ppe": null,
+   "total_assets": 252795,
+   "depreciation": 2464,
+   "sga": null,
+   "current_liabilities": 87833,
+   "long_term_debt": 0,
+   "net_income": 27181,
+   "cfo": null,
+   "retained_earnings": null,
+   "ebit": 26623,
+   "equity": null,
+   "total_liabilities": 99134,
+   "interest_expense": 431,
+   "total_debt": 0,
+   "cash": null
+  }
+ }
+}
