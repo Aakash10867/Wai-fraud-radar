@@ -1,0 +1,97 @@
+{
+ "company": "Thermax",
+ "report_fy": 2026,
+ "url": "https://files.tijorifinance.com/insight/india/301/Annual%20Report/AR-26.pdf",
+ "unit": "crore",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": true,
+   "quote": "The consolidated financial statements of the Holding Company for the year ended March 31, 2025, were audited by prior auditors under the Act who, vide their report dated May 9, 2025, expressed an unmodified opinion on those consolidated financial statements."
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 0,
+ "financials": [
+  {
+   "fy": 2026,
+   "revenue": 65182600000.0,
+   "cogs": 35569900000.0,
+   "receivables": 15242500000.0,
+   "current_assets": 38674800000.0,
+   "ppe": 9292000000.0,
+   "total_assets": 75582000000.0,
+   "depreciation": 971900000.0,
+   "sga": null,
+   "current_liabilities": 30698300000.0,
+   "long_term_debt": 250000000.0,
+   "net_income": 6489100000.0,
+   "cfo": 4164800000.0,
+   "retained_earnings": null,
+   "ebit": 8197300000.0,
+   "equity": 44270900000.0,
+   "total_liabilities": 31311100000.0,
+   "interest_expense": 248700000.0,
+   "total_debt": 1251600000.0,
+   "cash": 1001400000.0,
+   "source": "annual_report"
+  },
+  {
+   "fy": 2025,
+   "revenue": 62445300000.0,
+   "cogs": 34968000000.0,
+   "receivables": 14079200000.0,
+   "current_assets": 40351200000.0,
+   "ppe": 8886400000.0,
+   "total_assets": 69141500000.0,
+   "depreciation": 736400000.0,
+   "sga": null,
+   "current_liabilities": 28383800000.0,
+   "long_term_debt": 250000000.0,
+   "net_income": 5721400000.0,
+   "cfo": 3731700000.0,
+   "retained_earnings": null,
+   "ebit": 7446700000.0,
+   "equity": 39677600000.0,
+   "total_liabilities": 29463900000.0,
+   "interest_expense": 315300000.0,
+   "total_debt": 845100000.0,
+   "cash": 1170500000.0,
+   "source": "annual_report"
+  }
+ ]
+}

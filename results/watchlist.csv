@@ -4,7 +4,7 @@ Gensol Engineering,flagged,2024,3,0,3,-0.3769202638273576,4.926045470363177,0.01
 Suzlon Energy,control,2026,3,0,3,-1.4414547394109147,8.24620926156879,0.02090294463361205,,
 Siemens,control,2025,1,1,2,-2.2510651259468824,,0.04062432537499319,delayed_or_restated_results,"In connection with the preparation of the Financial Statements for 2024/25, corrections to the comparative figures have been made."
 ABB India,control,2025,1,0,1,-2.193816422209597,9.901235216386484,0.024876804851569463,,
-Thermax,control,2026,0,0,0,-2.3569056628493517,6.392881898236439,0.045991544736379016,,
+Thermax,control,2026,0,1,1,-2.3569056628493517,6.392881898236439,0.045991544736379016,auditor_resigned_or_changed,"The consolidated financial statements of the Holding Company for the year ended March 31, 2025, were audited by prior auditors under the Act who, vide their report dated May 9, 2025, expressed an unmodified opinion on those consolidated financial statements."
 Reliance Infrastructure,flagged,2026,0,0,0,-2.712304898317008,2.123405628051803,0.020310339436267692,,
 KPI Green Energy,control,2026,0,0,0,-2.5528032712458164,5.554648862513658,0.026795167576693948,,
 Borosil Renewables,control,2026,0,0,0,-2.965446115316486,12.139258794952724,0.038518302183531396,,
