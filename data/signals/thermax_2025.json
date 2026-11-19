@@ -1,0 +1,97 @@
+{
+ "company": "Thermax",
+ "report_fy": 2025,
+ "url": "https://files.tijorifinance.com/insight/india/301/Annual%20Report/AR-25.pdf",
+ "unit": "crore",
+ "signals": [
+  {
+   "type": "auditor_qualified_opinion",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_emphasis_of_matter",
+   "present": true,
+   "quote": "We draw attention to Note 30A (c) of the Standalone financial statements relating to the Arbitral Award against the Company for claims of Rs. 218.45 crore by the Arbitral Tribunal under a contract with customer for dispute and related provisions. The Company has made a provision of Rs. 50.63 crore and for the balance amount, no provision has been considered necessary. The Company has received stay of operation and execution of the Arbitral Award by the High Court of Bombay after depositing an amount of Rs. 218.45 crore. Our opinion is not modified in respect of this matter."
+  },
+  {
+   "type": "going_concern_doubt",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "material_related_party_transactions",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "auditor_resigned_or_changed",
+   "present": true,
+   "quote": "Based on the recommendations of the Audit Committee and subject to approval of members, the Board of Directors of the Company at their Meeting held on March 20, 2025 approved the appointment of M/s. Price Waterhouse Chartered Accountants LLP, Firm Registration No. 012754N/N500016 as the Statutory Auditors of the Company for a period of five years commencing from the conclusion of the 44th AGM of the Company till the conclusion of the 49th AGM of the Company."
+  },
+  {
+   "type": "delayed_or_restated_results",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "loan_or_fund_diversion_alleged",
+   "present": false,
+   "quote": ""
+  },
+  {
+   "type": "internal_control_weakness",
+   "present": false,
+   "quote": ""
+  }
+ ],
+ "dropped_unverified": 0,
+ "financials": [
+  {
+   "fy": 2025,
+   "revenue": 62540700000.0,
+   "cogs": 35114800000.0,
+   "receivables": 16515500000.0,
+   "current_assets": 43667200000.0,
+   "ppe": 8886400000.0,
+   "total_assets": 72457500000.0,
+   "depreciation": 783900000.0,
+   "sga": null,
+   "current_liabilities": 31698000000.0,
+   "long_term_debt": 251800000.0,
+   "net_income": 5721400000.0,
+   "cfo": 3741700000.0,
+   "retained_earnings": 33875400000.0,
+   "ebit": 7445400000.0,
+   "equity": 39677600000.0,
+   "total_liabilities": 32779899999.999996,
+   "interest_expense": 314000000.0,
+   "total_debt": 845100000.0,
+   "cash": 1181800000.0,
+   "source": "annual_report"
+  },
+  {
+   "fy": 2024,
+   "revenue": 58219300000.0,
+   "cogs": 32878400000.0,
+   "receivables": 15016400000.000002,
+   "current_assets": 40454400000.0,
+   "ppe": 6612600000.0,
+   "total_assets": 67473700000.0,
+   "depreciation": 727400000.0,
+   "sga": null,
+   "current_liabilities": 31364000000.0,
+   "long_term_debt": 0.0,
+   "net_income": 4374400000.0,
+   "cfo": 907900000.0000001,
+   "retained_earnings": 29632500000.0,
+   "ebit": 6039000000.0,
+   "equity": 35367000000.0,
+   "total_liabilities": 32106700000.0,
+   "interest_expense": 238400000.0,
+   "total_debt": 3078000000.0,
+   "cash": 2636200000.0,
+   "source": "annual_report"
+  }
+ ]
+}

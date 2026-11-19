@@ -128,11 +128,11 @@
   "red_flags": []
  },
  "Thermax": {
-  "key": "2d9327116acd",
+  "key": "644c77f31e0e",
   "fy": 2026,
-  "ai_written": false,
-  "headline": "Thermax: Clear (score 84.6)",
-  "summary": "Integrity score 84.6 for FY2026. The weakest areas are cash conversion (risk 34) and leverage and coverage (risk 17). Score covers 85% of the weighted evidence.",
+  "ai_written": true,
+  "headline": "Thermax displays low forensic risk with a Clear band, 86.9 integrity score, and no red flags.",
+  "summary": "Thermax is in the Clear band with an integrity score of 86.9, 100 percent coverage, and no red flags. Key metrics show a Z score of 6.39, an ICR of 8.45, and M of -2.36. Cash conversion risk is the highest pillar at 34, reflecting a CFO_NI of 0.75, while financial distress risk is 0. These stable signals provide minimal basis to initiate a forensic review.",
   "check_first": [
    "Check operating cash flow against revenue over five years and read the cash-flow statement notes"
   ],
